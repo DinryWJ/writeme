@@ -1,7 +1,17 @@
-/target/
-/.idea/
-/.settings/
-/build/
-/.classpath
-/.project
-/*.iml
+# Created by .ignore support plugin (hsz.mobi)
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+.gitignore
+.idea/compiler.xml
+.idea/libraries/
+
+writeme-api/writeme-api.iml
+writeme-common/writeme-common.iml
+writeme-eureka/writeme-eureka.iml
+writeme-service/writeme-service.iml
