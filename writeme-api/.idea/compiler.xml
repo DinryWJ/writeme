@@ -8,9 +8,11 @@
         <outputRelativeToContentRoot value="true" />
         <module name="writeme-api" />
         <module name="writeme-common" />
+        <module name="writeme-eureka" />
         <module name="writeme-service" />
         <module name="writeme-web" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="8" />
   </component>
 </project>
