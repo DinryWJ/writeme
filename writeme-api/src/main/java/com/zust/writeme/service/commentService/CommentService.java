@@ -1,4 +1,4 @@
-package com.zust.writeme.service;
+package com.zust.writeme.service.commentService;
 
 import com.zust.writeme.model.Comment;
 
@@ -8,11 +8,11 @@ public interface CommentService {
 
     List<Comment> getAllComment();
 
-    Integer update(int CommentId,Comment comment);
+    int update(int CommentId,Comment comment);
 
-    void add(Comment comment);
+    int add(Comment comment);
 
-    boolean delete(int CommentId);
+    int delete(int CommentId);
 
     Comment selectCommentById(int CommentId);
 }

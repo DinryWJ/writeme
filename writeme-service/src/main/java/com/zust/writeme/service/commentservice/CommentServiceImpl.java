@@ -2,7 +2,7 @@ package com.zust.writeme.service.commentservice;
 
 import com.zust.writeme.dao.CommentMapper;
 import com.zust.writeme.model.Comment;
-import com.zust.writeme.service.CommentService;
+import com.zust.writeme.service.commentService.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,24 +17,24 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getAllComment() {
+
         return commentMapper.selectAll();
     }
 
     @Override
-    public Integer update(int CommentId ,Comment comment) {
+    public int update(int CommentId ,Comment comment) {
 
         return commentMapper.updateByPrimaryKeySelective(comment);
     }
 
     @Override
-    public void add(Comment comment) {
-        commentMapper.insert(comment);
+    public int add(Comment comment) {
+        return commentMapper.insert(comment);
     }
 
     @Override
-    public boolean delete(int CommentId) {
-        commentMapper.deleteByPrimaryKey(CommentId);
-        return true;
+    public int delete(int CommentId) {
+        return commentMapper.deleteByPrimaryKey(CommentId);
     }
 
 
