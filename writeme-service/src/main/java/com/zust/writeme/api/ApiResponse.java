@@ -1,0 +1,81 @@
+package com.zust.writeme.api;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+
+import java.util.Objects;
+
+/**
+ * ModelApiResponse
+ */
+@Validated
+
+public class ApiResponse {
+    public static ResponseEntity<ApiResponse> successResponse(ApiResponse apiResponse) {
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
+    }
+
+    public static ResponseEntity<ApiResponse> errorResponse(ApiResponse apiResponse) {
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
+    }
+
+    @JsonProperty("code")
+    private Integer code = null;
+
+    @JsonProperty("type")
+    private String type = null;
+
+    @JsonProperty("data")
+    private Object data = null;
+
+    public ApiResponse(Integer code, String type, Object data) {
+        this.code = code;
+        this.type = type;
+        this.data = data;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ApiResponse _apiResponse = (ApiResponse) o;
+        return Objects.equals(this.code, _apiResponse.code) &&
+                Objects.equals(this.type, _apiResponse.type) &&
+                Objects.equals(this.data, _apiResponse.data);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, type, data);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class ModelApiResponse {\n");
+
+        sb.append("    code: ").append(toIndentedString(code)).append("\n");
+        sb.append("    type: ").append(toIndentedString(type)).append("\n");
+        sb.append("    data: ").append(toIndentedString(data)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
+}
+
