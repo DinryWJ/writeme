@@ -1,5 +1,6 @@
 package com.zust.writeme.api;
 
+import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.model.Comment;
 import com.zust.writeme.service.commentService.CommentService;
 import io.swagger.annotations.Api;
@@ -25,8 +26,14 @@ public class CommentControllerApi {
 
     @ApiOperation(value = "获取所有评论详细信息")
     @RequestMapping(value = "/getAllComment", method = RequestMethod.POST)
-    public List<Comment> getAllComment() {
-        return commentService.getAllComment();
+    public ResponseEntity<ApiResponse> getAllComment(
+            @ApiParam(name = "pageNum", value = "评论开始位置", required = true)
+            @RequestParam(value = "pageNum", required = true)int pageNum,
+            @ApiParam(name = "pageSize", value = "评论条数", required = true)
+            @RequestParam(value = "pageSize", required = true) int pageSize) {
+        Pagination<Comment> commentList = commentService.getAllComment(pageNum,pageSize);
+        ApiResponse res = new ApiResponse(200,"ok",commentList);
+        return ApiResponse.successResponse(res);
     }
 
     @ApiOperation(value = "评论详细信息", notes = "根据url的id来获取评论详细信息")
@@ -44,8 +51,8 @@ public class CommentControllerApi {
     public ResponseEntity<ApiResponse> delete(
             @ApiParam(name = "CommentId", value = "评论ID", required = true)
             @RequestParam(value = "CommentId", required = true) int id) {
-        int d = commentService.delete(id);
-        ApiResponse res = new ApiResponse(200,"ok",d);
+        int eff = commentService.delete(id);
+        ApiResponse res = new ApiResponse(200,"ok",eff);
         return ApiResponse.successResponse(res);
     }
 

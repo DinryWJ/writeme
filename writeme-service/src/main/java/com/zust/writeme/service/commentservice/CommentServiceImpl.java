@@ -1,10 +1,14 @@
 package com.zust.writeme.service.commentservice;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.dao.CommentMapper;
 import com.zust.writeme.model.Comment;
 import com.zust.writeme.service.commentService.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -16,9 +20,20 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public List<Comment> getAllComment() {
+    public Pagination<Comment> getAllComment(int pageNum,int pageSize) {
 
-        return commentMapper.selectAll();
+        Pagination<Comment> pagination = new Pagination<>();
+        Example example = new Example(Comment.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andIsNotNull("commentId");
+        PageHelper.startPage(pageNum,pageSize);
+        List<Comment> commentList = commentMapper.selectByExample(example);
+
+        pagination.setList(commentList);
+        pagination.setPageNum((long) pageNum);
+        pagination.setPageSize((long) pageSize);
+        pagination.setTotal(((Page)commentList).getTotal());
+        return pagination;
     }
 
     @Override
