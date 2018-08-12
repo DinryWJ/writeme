@@ -13,4 +13,27 @@
     <result column="user_permission" property="userPermission" jdbcType="INTEGER" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
   </resultMap>
+  <sql id="user_base_list">
+                user_id,user_name,user_password,user_permission,user_accout,user_abstract
+        </sql>
+
+  <select id="selectByAccount" parameterType="String" resultMap="UserResultMapper">
+              select * from user as u where u.user_account=#{userAccount,jdbcType=VARCHAR}
+        </select>
+
+  <select id="selectAll" resultMap="UserResultMapper" >
+        select * from user
+    </select>
+  <select id="selectByUserName" parameterType="String" resultMap="UserResultMapper" >
+        select * from user as u where u.user_name=#{userName,jdbcType=VARCHAR}
+    </select>
+  <delete id="deleteUser" parameterType="int" >
+        delete from user  where user.user_id=#{userId,jdbcType=INTEGER}
+    </delete>
+  <update id="updatePassword" parameterType="int" >
+      update user  set user_password=#{userPassword,jdbcType=VARCHAR} where user_id=#{userId,jdbcType=INTEGER}
+    </update>
+  <update id="updateUserName" parameterType="int" >
+       update user  set user_name=#{userName ,jdbcType=VARCHAR} where user_id=#{userId,jdbcType=INTEGER}
+    </update>
 </mapper>
