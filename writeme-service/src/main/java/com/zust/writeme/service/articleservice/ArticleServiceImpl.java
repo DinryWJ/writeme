@@ -1,6 +1,8 @@
 package com.zust.writeme.service.articleservice;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.dao.ArticleMapper;
 import com.zust.writeme.model.Article;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +37,20 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> getArticleListByTitleName(String title, int pageNum, int pageSize) {
+    public Pagination<Article> getArticleListByTitleName(String title, int pageNum, int pageSize) {
+        Pagination<Article> pagination = new Pagination<>();
+
         Example example = new Example(Article.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andLike("title", "%"+title+"%");
         PageHelper.startPage(pageNum, pageSize);
         List<Article> articleList = articleMapper.selectByExample(example);
-        return articleList;
+
+        pagination.setList(articleList);
+        pagination.setPageNum((long) pageNum);
+        pagination.setPageSize((long) pageSize);
+        pagination.setTotal(((Page)articleList).getTotal());
+        return pagination;
     }
 
     @Override

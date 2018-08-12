@@ -1,7 +1,9 @@
 package com.zust.writeme.service.articleservice;
 
+import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.model.Article;
 
+import javax.swing.*;
 import java.util.List;
 
 /**
@@ -13,7 +15,7 @@ public interface ArticleService {
 
     Article getArticleById(int articleId);
 
-    List<Article> getArticleListByTitleName(String title, int pageNum, int pageSize);
+    Pagination<Article> getArticleListByTitleName(String title, int pageNum, int pageSize);
 
     int deleteArticleById(int articleId);
 
