@@ -1,5 +1,6 @@
 package com.zust.writeme.api;
 
+import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.model.Article;
 import com.zust.writeme.service.articleservice.ArticleService;
 import io.swagger.annotations.Api;
@@ -61,7 +62,7 @@ public class ArticleControllerApi {
             @ApiParam(value = "pageNum", name = "pageNum", required = true) @RequestParam(value = "pageNum", required = true) int pageNum,
             @ApiParam(value = "pageSize", name = "pageSize", required = true) @RequestParam(value = "pageSize", required = true) int pageSize
     ) {
-        List<Article> articleList = articleService.getArticleListByTitleName(title, pageNum, pageSize);
+        Pagination<Article> articleList = articleService.getArticleListByTitleName(title, pageNum, pageSize);
 
         ApiResponse res = new ApiResponse(200, "ok", articleList);
         return ApiResponse.successResponse(res);
