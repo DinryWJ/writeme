@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zust.writeme.dao.ReplyMapper" >
+  <resultMap id="BaseResultMap" type="com.zust.writeme.model.Reply" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="comment_table_id" property="commentTableId" jdbcType="INTEGER" />
+    <result column="reply_content" property="replyContent" jdbcType="VARCHAR" />
+    <result column="reply_time" property="replyTime" jdbcType="TIMESTAMP" />
+    <result column="replied_id" property="repliedId" jdbcType="INTEGER" />
+    <result column="replier_id" property="replierId" jdbcType="INTEGER" />
+  </resultMap>
+</mapper>

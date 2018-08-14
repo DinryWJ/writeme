@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zust.writeme.dao.RecommendArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.zust.writeme.model.RecommendArticle" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="recommend_id" property="recommendId" jdbcType="INTEGER" />
+    <result column="article_id" property="articleId" jdbcType="INTEGER" />
+  </resultMap>
+</mapper>

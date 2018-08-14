@@ -1,4 +1,4 @@
-package com.zust.writeme.service;
+package com.zust.writeme.service.userservice;
 
 import com.zust.writeme.model.User;
 
