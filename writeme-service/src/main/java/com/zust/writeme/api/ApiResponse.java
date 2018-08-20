@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -12,13 +13,25 @@ import java.util.Objects;
  */
 @Validated
 
-public class ApiResponse {
-    public static ResponseEntity<ApiResponse> successResponse(ApiResponse apiResponse) {
-        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
+public class ApiResponse implements Serializable {
+    public ApiResponse() {
+        super();
     }
 
-    public static ResponseEntity<ApiResponse> errorResponse(ApiResponse apiResponse) {
-        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
+    public static ResponseEntity<ApiResponse> response(int returnCode, String returnMsg, Object returnData) {
+        ApiResponse res = new ApiResponse();
+        res.setCode(returnCode);
+        res.setType(returnMsg);
+        res.setData(returnData);
+        return new ResponseEntity<ApiResponse>(res, HttpStatus.OK);
+    }
+
+    public static ResponseEntity<ApiResponse> successResponse(Object returnData) {
+        return response(200, "success", returnData);
+    }
+
+    public static ResponseEntity<ApiResponse> errorResponse(String returnMsg) {
+        return response(400, returnMsg, null);
     }
 
     @JsonProperty("code")
@@ -76,6 +89,30 @@ public class ApiResponse {
             return "null";
         }
         return o.toString().replace("\n", "\n    ");
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 }
 

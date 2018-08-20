@@ -14,12 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @Api(value = "文章管理", description = "文章管理")
 @RequestMapping(value = "/article")
-@Controller
+@RestController
 public class ArticleControllerApi {
 
     private static final Logger log = LoggerFactory.getLogger(ArticleControllerApi.class);
@@ -37,9 +38,7 @@ public class ArticleControllerApi {
     ) {
 
         int eff = articleService.addArticle(title, content, corpusId, userId);
-
-        ApiResponse res = new ApiResponse(200, "ok", eff);
-        return ApiResponse.successResponse(res);
+        return ApiResponse.successResponse(eff);
 
     }
 
@@ -50,8 +49,8 @@ public class ArticleControllerApi {
     ) {
         Article article = articleService.getArticleById(articleId);
 
-        ApiResponse res = new ApiResponse(200, "ok", article);
-        return ApiResponse.successResponse(res);
+
+        return ApiResponse.successResponse(article);
 
     }
 
@@ -64,8 +63,7 @@ public class ArticleControllerApi {
     ) {
         Pagination<Article> articleList = articleService.getArticleListByTitleName(title, pageNum, pageSize);
 
-        ApiResponse res = new ApiResponse(200, "ok", articleList);
-        return ApiResponse.successResponse(res);
+        return ApiResponse.successResponse(articleList);
     }
 
     @ApiOperation(value = "通过文章id删除文章", notes = "通过文章id删除文章")
@@ -75,8 +73,7 @@ public class ArticleControllerApi {
     ) {
         int eff = articleService.deleteArticleById(articleId);
 
-        ApiResponse res = new ApiResponse(200, "ok", eff);
-        return ApiResponse.successResponse(res);
+        return ApiResponse.successResponse(eff);
     }
 
     @ApiOperation(value = "更新文章信息", notes = "更新文章信息")
@@ -88,9 +85,7 @@ public class ArticleControllerApi {
             @ApiParam(value = "文集id", name = "corpusId", required = true) @RequestParam(value = "corpusId", required = true) int corpusId
     ) {
         int eff = articleService.updateArticle(articleId, title, content, corpusId);
-
-        ApiResponse res = new ApiResponse(200, "ok", eff);
-        return ApiResponse.successResponse(res);
+        return ApiResponse.successResponse(eff);
     }
 
 }

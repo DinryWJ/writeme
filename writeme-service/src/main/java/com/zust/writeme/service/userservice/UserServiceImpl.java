@@ -16,9 +16,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
     @Override
-    public void insertUser(User user) {
+    public int insertUser(User user) {
         User u=user;
         userMapper.insert(u);
+        return 0;
     }
 
     @Override
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteUser(int uid) {
+    public int deleteUser(int uid) {
         return userMapper.deleteUser(uid);
 
     }

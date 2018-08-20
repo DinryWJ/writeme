@@ -4,20 +4,21 @@ import com.zust.writeme.model.User;
 
 import java.util.List;
 
-public interface UserService   {
+public interface UserService {
 
+    int insertUser(User user);
 
-    public void insertUser(User user);
+    List<User> selectAll();
 
-    public List<User> selectAll();
+    User selectByAccount(String account);
 
-    public User selectByAccount(String account);
+    List<User> selectByUserName(String name);
 
-    public List<User> selectByUserName(String name);
+    int deleteUser(int uid);
 
-    public  boolean deleteUser(int uid);
-    public  void updateName(int uid, String name );
-    public  void  updatePassword(String account,String password,String newpassword );
+    void updateName(int uid, String name);
+
+    void updatePassword(String account, String password, String newpassword);
 
 
 }

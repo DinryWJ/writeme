@@ -16,7 +16,7 @@ public interface UserMapper extends MyMapper<User> {
     List<User> selectByUserName(String name);
 
     @Delete("delete from user  where user.user_id=#{uid}")
-    boolean deleteUser(int uid);
+    int deleteUser(int uid);
 
     @Update("update user  set user_password=#{password} where user_id=#{uid}")
     void updatePassword(int uid, String password);
