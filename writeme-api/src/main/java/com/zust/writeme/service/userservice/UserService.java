@@ -57,16 +57,11 @@ public interface UserService {
 
     /**
      * 根据用户名搜索用户
+     *
      * @param name,pageNum,pageSize
      * @return
      */
-    Pagination<User> selectUserListByName(String name,int pageNum, int pageSize);
+    Pagination<User> selectUserListByName(String name, int pageNum, int pageSize);
 
-//    int deleteUser(int uid);
-//
-//    void updateName(int uid, String name);
-//
-//    void updatePassword(String account, String password, String newpassword);
-//
 
 }

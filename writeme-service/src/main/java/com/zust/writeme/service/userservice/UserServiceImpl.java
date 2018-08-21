@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
 
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andLike("userName","%"+name+"%");
+        criteria.andLike("userName", "%" + name + "%");
 
         PageHelper.startPage(pageNum, pageSize);
         List<User> userList = userMapper.selectByExample(example);
@@ -86,35 +86,5 @@ public class UserServiceImpl implements UserService {
         pagination.setTotal(((Page) userList).getTotal());
         return pagination;
     }
-
-//
-//    @Override
-//    public int deleteUser(int uid) {
-//        return userMapper.deleteUser(uid);
-//
-//    }
-//
-//    @Override
-//    public void updateName(int uid, String name) {
-//        //User user=userMapper.selectByPrimaryKey(uid);
-//        List<User> listUser=userMapper.selectByUserName(name);
-//        if (listUser.size()>0)
-//            System.out.println("请修改用户名");
-//        else
-//            userMapper.updateUserName(uid,name);
-//    }
-//
-//    @Override
-//    public void updatePassword(String account, String password, String newpassword) {
-//        int uid;
-//            User user=userMapper.selectByAccount(account);
-//            if (user.getUserPassword().equals(password)) {
-//                uid = user.getUserId();
-//                userMapper.updatePassword(uid,newpassword);
-//            }
-//            else
-//                System.out.println("账户密码错误");
-//    }
-
 
 }

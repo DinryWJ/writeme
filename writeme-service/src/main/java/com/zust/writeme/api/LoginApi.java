@@ -39,18 +39,18 @@ public class LoginApi {
             @ApiParam(name = "account", value = "用户账号", required = true) @RequestParam(value = "account", required = true) String account,
             @ApiParam(value = "密码", name = "password", required = true) @RequestParam(value = "password", required = true) String password
     ) {
-        int count = userService.validAccount(account,password);
-        if (count>0){
-            User user = userService.getLoginUser(account,password);
-            if ("0".equals(user.getStatus())){
-                String token = TokenUtils.createToken(String.valueOf(user.getUserId()),user.getUserAccount());
-                Map<String,Object> map = new HashMap<String,Object>();
-                map.put("token",token);
+        int count = userService.validAccount(account, password);
+        if (count > 0) {
+            User user = userService.getLoginUser(account, password);
+            if ("0".equals(user.getStatus())) {
+                String token = TokenUtils.createToken(String.valueOf(user.getUserId()), user.getUserAccount());
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("token", token);
                 return ApiResponse.successResponse(map);
-            }else {
+            } else {
                 return ApiResponse.errorResponse("该账号被禁用，请联系管理员");
             }
-        }else{
+        } else {
             return ApiResponse.errorResponse("用户名或密码错误");
         }
     }

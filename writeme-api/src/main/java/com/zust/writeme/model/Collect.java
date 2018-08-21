@@ -2,6 +2,7 @@ package com.zust.writeme.model;
 
 import javax.persistence.*;
 
+@Table(name = "collect")
 public class Collect {
     /**
      * 收集表id
