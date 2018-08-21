@@ -15,33 +15,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Api(value="文集管理",description = "文集管理")
+@Api(value = "文集管理", description = "文集管理")
 @RequestMapping(value = "/corpus")
 @Controller
-public class CorpusControllerApi {
-    private static final Logger log = LoggerFactory.getLogger(CorpusControllerApi.class);
+public class CorpusApi {
+    private static final Logger log = LoggerFactory.getLogger(CorpusApi.class);
 
     @Autowired
     private CorpusService corpusService;
 
-    @ApiOperation(value="添加文集", notes="添加文集")
-    @RequestMapping(value = "/addCorpus",method = RequestMethod.POST)
+    @ApiOperation(value = "添加文集", notes = "添加文集")
+    @RequestMapping(value = "/addCorpus", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> add(
-            @ApiParam(name = "Corpus", value = "添加文集json格式", required = true)
-            @RequestBody Corpus corpus){
+            @ApiParam(name = "Corpus", value = "添加文集json格式", required = true) @RequestBody Corpus corpus
+    ) {
         int eff = corpusService.add(corpus);
-        ApiResponse res = new ApiResponse(200,"ok",eff);
-        return ApiResponse.successResponse(res);
+        return ApiResponse.successResponse(eff);
     }
 
     @ApiOperation(value = "删除文集", notes = "根据文集id来删除文集")
     @RequestMapping(value = "/deleteCorpusById", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> delete(
-            @ApiParam(name = "corpusId", value = "文集ID", required = true)
-            @RequestParam(value = "corpusId", required = true) int id) {
+            @ApiParam(name = "corpusId", value = "文集ID", required = true) @RequestParam(value = "corpusId", required = true) int id
+    ) {
         int eff = corpusService.delete(id);
-        ApiResponse res = new ApiResponse(200,"ok",eff);
-        return ApiResponse.successResponse(res);
+        return ApiResponse.successResponse(eff);
     }
 
 }
