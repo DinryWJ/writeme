@@ -1,6 +1,7 @@
 package com.zust.writeme.api;
 
 import com.zust.writeme.common.util.Pagination;
+import com.zust.writeme.common.util.TokenUtils;
 import com.zust.writeme.model.Article;
 import com.zust.writeme.service.articleservice.ArticleService;
 import io.swagger.annotations.Api;
@@ -16,14 +17,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Api(value = "文章管理", description = "文章管理")
 @RequestMapping(value = "/article")
 @RestController
-public class ArticleControllerApi {
+public class ArticleApi {
 
-    private static final Logger log = LoggerFactory.getLogger(ArticleControllerApi.class);
+    private static final Logger log = LoggerFactory.getLogger(ArticleApi.class);
 
     @Autowired
     private ArticleService articleService;
@@ -31,14 +34,21 @@ public class ArticleControllerApi {
     @ApiOperation(value = "新增文章", notes = "新增文章")
     @RequestMapping(value = "/addArticle", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> addArticle(
+            @ApiParam(value = "token",name = "token",required = true) @RequestParam(value = "token",required = true) String token,
             @ApiParam(value = "文章标题", name = "title", required = true) @RequestParam(value = "title", required = true) String title,
             @ApiParam(value = "文章内容", name = "content", required = true) @RequestParam(value = "content", required = true) String content,
-            @ApiParam(value = "文集id", name = "corpusId", required = true) @RequestParam(value = "corpusId", required = true) int corpusId,
-            @ApiParam(value = "用户id", name = "userId", required = true) @RequestParam(value = "userId", required = true) int userId
+            @ApiParam(value = "文集id", name = "corpusId", required = true) @RequestParam(value = "corpusId", required = true) int corpusId
     ) {
-        int eff = articleService.addArticle(title, content, corpusId, userId);
-        return ApiResponse.successResponse(eff);
-
+            Map<String,Object> map = TokenUtils.validToken(token);
+            boolean flag = (boolean) map.get("success");
+            if (flag){
+                int userId = ((Long) map.get("uid")).intValue();
+                String account = (String) map.get("account");
+                int eff = articleService.addArticle(title, content, corpusId, userId);
+                return ApiResponse.successResponse(eff);
+            }else{
+                return ApiResponse.errorResponse("登陆过期，请重新登陆");
+            }
     }
 
     @ApiOperation(value = "通过id获取文章信息", notes = "通过id获取文章信息")

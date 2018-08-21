@@ -27,8 +27,8 @@ public class UserApi {
     private UserService userService;
 
     @ApiOperation(value = "注册用户")
-    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public ResponseEntity<ApiResponse> insertUser(
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> register(
             @ApiParam(value = "账号", name = "account", required = true) @RequestParam(value = "account", required = true) String account,
             @ApiParam(value = "密码", name = "password", required = true) @RequestParam(value = "password", required = true) String password,
             @ApiParam(value = "重复密码", name = "repassword", required = true) @RequestParam(value = "repassword", required = true) String repassword
@@ -46,8 +46,8 @@ public class UserApi {
             user.setUserPassword(password);
             user.setSex("M");
             user.setUserName("新用户" + LocalDate.now().toString());
-            user.setUserPermission(0);
-            user.setStatus(true);
+            user.setUserPermission("0");
+            user.setStatus("0");
             int eff = userService.insertUser(user);
             return ApiResponse.successResponse(eff);
         }

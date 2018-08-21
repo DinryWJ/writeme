@@ -42,8 +42,8 @@ public class LoginApi {
         int count = userService.validAccount(account,password);
         if (count>0){
             User user = userService.getLoginUser(account,password);
-            if (user.isStatus()){
-                String token = TokenUtils.createToken(user.getUserId(),user.getUserAccount());
+            if ("0".equals(user.getStatus())){
+                String token = TokenUtils.createToken(String.valueOf(user.getUserId()),user.getUserAccount());
                 Map<String,Object> map = new HashMap<String,Object>();
                 map.put("token",token);
                 return ApiResponse.successResponse(map);

@@ -20,7 +20,7 @@ public class TokenUtils {
     public static void main(String[] ages) {
 
         //获取token
-        int uid = 15868135;
+        String uid = "21321312";
         String account="wujiajiefdsfs";
         String token = createToken(uid,account);
         //解析token
@@ -31,7 +31,7 @@ public class TokenUtils {
     }
 
     //生成token的业务逻辑
-    public static String createToken(int uid,String account) {
+    public static String createToken(String uid,String account) {
         //获取生成token
         Map<String, Object> map = new HashMap<>();
         //建立载荷，这些数据根据业务，自己定义。
@@ -63,6 +63,7 @@ public class TokenUtils {
                 int i = (int) validMap.get("Result");
                 if (i == 0) {
                     System.out.println("token解析成功");
+                    returnMap.put("success",true);
                     JSONObject jsonObject = (JSONObject) validMap.get("data");
                     returnMap.put("uid", jsonObject.get("uid"));
                     returnMap.put("account",jsonObject.get("account"));
@@ -70,6 +71,7 @@ public class TokenUtils {
                     returnMap.put("exp", jsonObject.get("exp"));
                 } else if (i == 2) {
                     System.out.println("token已经过期");
+                    returnMap.put("success",false);
                 }
                 return returnMap;
             }

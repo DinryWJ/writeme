@@ -8,7 +8,7 @@ public class User {
      */
     @Id
     @Column(name = "user_id")
-    private Integer userId;
+    private int userId;
 
     /**
      * 用户账号
@@ -37,7 +37,7 @@ public class User {
      * 0为普通用户，1为管理员
      */
     @Column(name = "user_permission")
-    private Integer userPermission;
+    private String userPermission;
 
     /**
      * 用户昵称
@@ -45,13 +45,13 @@ public class User {
     @Column(name = "user_name")
     private String userName;
 
-    private boolean status;
+    private String status;
 
-    public boolean isStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -60,7 +60,7 @@ public class User {
      *
      * @return user_id - 用户id
      */
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
@@ -69,7 +69,7 @@ public class User {
      *
      * @param userId 用户id
      */
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -150,7 +150,7 @@ public class User {
      *
      * @return user_permission - 0为普通用户，1为管理员
      */
-    public Integer getUserPermission() {
+    public String getUserPermission() {
         return userPermission;
     }
 
@@ -159,7 +159,7 @@ public class User {
      *
      * @param userPermission 0为普通用户，1为管理员
      */
-    public void setUserPermission(Integer userPermission) {
+    public void setUserPermission(String userPermission) {
         this.userPermission = userPermission;
     }
 
