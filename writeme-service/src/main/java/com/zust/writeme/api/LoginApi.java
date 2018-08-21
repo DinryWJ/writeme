@@ -2,7 +2,7 @@ package com.zust.writeme.api;
 
 import com.zust.writeme.common.util.TokenUtils;
 import com.zust.writeme.model.User;
-import com.zust.writeme.service.userservice.UserService;
+import com.zust.writeme.service.userService.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

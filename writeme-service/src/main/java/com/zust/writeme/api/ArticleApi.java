@@ -3,7 +3,7 @@ package com.zust.writeme.api;
 import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.common.util.TokenUtils;
 import com.zust.writeme.model.Article;
-import com.zust.writeme.service.articleservice.ArticleService;
+import com.zust.writeme.service.articleService.ArticleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -11,14 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Api(value = "文章管理", description = "文章管理")

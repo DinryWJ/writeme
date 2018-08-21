@@ -5,9 +5,8 @@
 package com.zust.writeme.api;
 
 import com.zust.writeme.common.util.Pagination;
-import com.zust.writeme.common.util.TokenUtils;
 import com.zust.writeme.model.User;
-import com.zust.writeme.service.userservice.UserService;
+import com.zust.writeme.service.userService.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -16,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Api(value = "用户管理", description = "用户管理")
 @RequestMapping(value = "/user")

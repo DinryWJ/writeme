@@ -1,6 +1,6 @@
 package com.zust.writeme.api;
 
-import com.zust.writeme.service.ArticleClickService.ArticleClickService;
+import com.zust.writeme.service.articleClickService.ArticleClickService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

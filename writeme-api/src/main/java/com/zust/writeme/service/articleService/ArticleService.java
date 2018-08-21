@@ -1,10 +1,7 @@
-package com.zust.writeme.service.articleservice;
+package com.zust.writeme.service.articleService;
 
 import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.model.Article;
-
-import javax.swing.*;
-import java.util.List;
 
 /**
  * @author 82712

@@ -1,14 +1,12 @@
 package com.zust.writemeservice.articleservice;
 
 import com.zust.writeme.model.Article;
-import com.zust.writeme.service.articleservice.ArticleService;
+import com.zust.writeme.service.articleService.ArticleService;
 import com.zust.writemeservice.WritemeServiceApplicationTests;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 public class ArticleServiceImplTest extends WritemeServiceApplicationTests {
     @Autowired

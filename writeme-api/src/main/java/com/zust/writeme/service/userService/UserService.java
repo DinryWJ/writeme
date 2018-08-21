@@ -1,9 +1,7 @@
-package com.zust.writeme.service.userservice;
+package com.zust.writeme.service.userService;
 
 import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.model.User;
-
-import java.util.List;
 
 public interface UserService {
 

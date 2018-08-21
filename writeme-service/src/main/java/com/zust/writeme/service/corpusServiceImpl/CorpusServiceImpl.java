@@ -1,12 +1,12 @@
-package com.zust.writeme.service.CorpusServiceImpl;
+package com.zust.writeme.service.corpusServiceImpl;
 
 import com.zust.writeme.dao.CorpusMapper;
 import com.zust.writeme.model.Corpus;
-import com.zust.writeme.service.CorpusService.CorpusService;
+import com.zust.writeme.service.corpusService.CorpusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("corpusService")
 public class CorpusServiceImpl implements CorpusService {
    @Autowired
     private CorpusMapper corpusMapper;

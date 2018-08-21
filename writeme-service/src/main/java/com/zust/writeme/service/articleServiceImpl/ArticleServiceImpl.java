@@ -1,10 +1,11 @@
-package com.zust.writeme.service.articleservice;
+package com.zust.writeme.service.articleServiceImpl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.dao.ArticleMapper;
 import com.zust.writeme.model.Article;
+import com.zust.writeme.service.articleService.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;

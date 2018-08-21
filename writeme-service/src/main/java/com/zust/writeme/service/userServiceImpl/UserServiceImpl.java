@@ -2,13 +2,14 @@
  * @author Administrator
  * @create 2018/8/8
  */
-package com.zust.writeme.service.userservice;
+package com.zust.writeme.service.userServiceImpl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.dao.UserMapper;
 import com.zust.writeme.model.User;
+import com.zust.writeme.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;

@@ -1,16 +1,15 @@
-package com.zust.writeme.service.CollectServiceImpl;
+package com.zust.writeme.service.collectServiceImpl;
 
 import com.zust.writeme.dao.CollectMapper;
-import com.zust.writeme.model.ArticleClick;
 import com.zust.writeme.model.Collect;
-import com.zust.writeme.service.CollectService.CollectService;
+import com.zust.writeme.service.collectService.CollectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
-@Service
+@Service("collectService")
 public class CollectServiceImpl implements CollectService {
     @Autowired
     private CollectMapper collectMapper;

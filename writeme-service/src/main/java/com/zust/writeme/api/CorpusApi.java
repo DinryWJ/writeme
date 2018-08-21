@@ -1,7 +1,7 @@
 package com.zust.writeme.api;
 
 import com.zust.writeme.model.Corpus;
-import com.zust.writeme.service.CorpusService.CorpusService;
+import com.zust.writeme.service.corpusService.CorpusService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

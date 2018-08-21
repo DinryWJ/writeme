@@ -1,8 +1,8 @@
-package com.zust.writeme.service.ArticleClickServiceImpl;
+package com.zust.writeme.service.articleClickServiceImpl;
 
 import com.zust.writeme.dao.ArticleClickMapper;
 import com.zust.writeme.model.ArticleClick;
-import com.zust.writeme.service.ArticleClickService.ArticleClickService;
+import com.zust.writeme.service.articleClickService.ArticleClickService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
@@ -10,10 +10,11 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.List;
 
 
-@Service
+@Service("articleClickService")
 public class ArticleClickServiceImpl implements ArticleClickService {
     @Autowired
     private ArticleClickMapper articleClickMapper;
+
     @Override
     public int like(int articleId, int userId) {
 
@@ -29,8 +30,8 @@ public class ArticleClickServiceImpl implements ArticleClickService {
 
         Example example = new Example(ArticleClick.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("articleId",articleId);
-        criteria.andEqualTo("userId",userId);
+        criteria.andEqualTo("articleId", articleId);
+        criteria.andEqualTo("userId", userId);
 
         return articleClickMapper.deleteByExample(example);
     }
@@ -39,8 +40,8 @@ public class ArticleClickServiceImpl implements ArticleClickService {
     public boolean isExist(int articleId, int userId) {
         Example example = new Example(ArticleClick.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("articleId",articleId);
-        criteria.andEqualTo("userId",userId);
+        criteria.andEqualTo("articleId", articleId);
+        criteria.andEqualTo("userId", userId);
 
         List<ArticleClick> articleList = articleClickMapper.selectByExample(example);
         if (!articleList.isEmpty())

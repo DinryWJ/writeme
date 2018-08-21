@@ -1,4 +1,4 @@
-package com.zust.writeme.service.CorpusService;
+package com.zust.writeme.service.corpusService;
 
 import com.zust.writeme.model.Corpus;
 

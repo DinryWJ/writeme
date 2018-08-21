@@ -1,4 +1,4 @@
-package com.zust.writeme.service.commentservice;
+package com.zust.writeme.service.commentServiceImpl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -13,7 +13,7 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.List;
 
 
-@Service
+@Service("commentService")
 public class CommentServiceImpl implements CommentService {
     @Autowired
     private CommentMapper commentMapper;
