@@ -36,7 +36,6 @@ public class ArticleControllerApi {
             @ApiParam(value = "文集id", name = "corpusId", required = true) @RequestParam(value = "corpusId", required = true) int corpusId,
             @ApiParam(value = "用户id", name = "userId", required = true) @RequestParam(value = "userId", required = true) int userId
     ) {
-
         int eff = articleService.addArticle(title, content, corpusId, userId);
         return ApiResponse.successResponse(eff);
 

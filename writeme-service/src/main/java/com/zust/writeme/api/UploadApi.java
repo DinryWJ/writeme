@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.UUID;
 
 @Api(value = "图片上传", description = "图片上传")
 @CrossOrigin
@@ -24,32 +25,32 @@ import java.util.Map;
 public class UploadApi {
     private static final Logger log = LoggerFactory.getLogger(UploadApi.class);
 
-    @ApiOperation(value = "图片上传", notes = "图片上传")
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public ResponseEntity<ApiResponse> upload(@RequestParam(value = "file") MultipartFile multipartFile) {
+    @ApiOperation(value = "模拟图片上传", notes = "模拟图片上传")
+    @RequestMapping(value = "/virtualUpload", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> virtualUpload(@RequestParam(value = "file") MultipartFile multipartFile) {
         JSONObject obj = new JSONObject();
         obj.put("url", "http://www.dinry.top/a.jpg");
         ApiResponse res = new ApiResponse(200, "ok", obj);
         return ApiResponse.successResponse(res);
     }
 
-    @ApiOperation(value = "图片上传2", notes = "图片上传2")
-    @RequestMapping(value = "/upload2", method = RequestMethod.POST)
-    public ResponseEntity<ApiResponse> upload2(@RequestParam("file") MultipartFile file) throws IOException {
+    @ApiOperation(value = "图片上传", notes = "图片上传")
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> upload(@RequestParam("file") MultipartFile file) throws IOException {
 
         String fileName = file.getOriginalFilename();
         InputStream inputStream = file.getInputStream();
         String filePath = null;
+        //上传文件名+UUID
+        String currentPath = UUID.randomUUID()+fileName;
 
-
-        Boolean flag = FtpFileUtil.uploadFile(fileName, inputStream);
+        Boolean flag = FtpFileUtil.uploadFile(currentPath, inputStream);
         if (flag == true) {
             System.out.println("ftp上传成功！");
-            filePath = fileName;
+            filePath = currentPath;
         }
         JSONObject obj = new JSONObject();
         obj.put("url", "http://www.dinry.top/"+filePath );
-        ApiResponse res = new ApiResponse(200, "ok", obj);
-        return ApiResponse.successResponse(res);
+        return ApiResponse.successResponse(obj);
     }
 }

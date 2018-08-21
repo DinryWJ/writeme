@@ -13,7 +13,6 @@ public class User {
     /**
      * 用户账号
      */
-    @Id
     @Column(name = "user_account")
     private String userAccount;
 
@@ -45,6 +44,16 @@ public class User {
      */
     @Column(name = "user_name")
     private String userName;
+
+    private boolean status;
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 
     /**
      * 获取用户id
