@@ -16,11 +16,14 @@ public class Article {
      */
     private String title;
 
+    @Column(name = "article_preview")
+    private String articlePreview;
+
     /**
-     * 创建时间
+     * 用户id
      */
-    @Column(name = "create_time")
-    private Date createTime;
+    @Column(name = "user_id")
+    private Integer userId;
 
     /**
      * 文集id
@@ -29,10 +32,15 @@ public class Article {
     private Integer corpusId;
 
     /**
-     * 用户id
+     * 0未发布 1发布
      */
-    @Column(name = "user_id")
-    private Integer userId;
+    private Integer status;
+
+    /**
+     * 创建时间
+     */
+    @Column(name = "create_time")
+    private Date createTime;
 
     /**
      * 文章内容
@@ -77,21 +85,35 @@ public class Article {
     }
 
     /**
-     * 获取创建时间
-     *
-     * @return create_time - 创建时间
+     * @return article_preview
      */
-    public Date getCreateTime() {
-        return createTime;
+    public String getArticlePreview() {
+        return articlePreview;
     }
 
     /**
-     * 设置创建时间
-     *
-     * @param createTime 创建时间
+     * @param articlePreview
      */
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setArticlePreview(String articlePreview) {
+        this.articlePreview = articlePreview;
+    }
+
+    /**
+     * 获取用户id
+     *
+     * @return user_id - 用户id
+     */
+    public Integer getUserId() {
+        return userId;
+    }
+
+    /**
+     * 设置用户id
+     *
+     * @param userId 用户id
+     */
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     /**
@@ -113,21 +135,39 @@ public class Article {
     }
 
     /**
-     * 获取用户id
+     * 获取0未发布 1发布
      *
-     * @return user_id - 用户id
+     * @return status - 0未发布 1发布
      */
-    public Integer getUserId() {
-        return userId;
+    public Integer getStatus() {
+        return status;
     }
 
     /**
-     * 设置用户id
+     * 设置0未发布 1发布
      *
-     * @param userId 用户id
+     * @param status 0未发布 1发布
      */
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    /**
+     * 获取创建时间
+     *
+     * @return create_time - 创建时间
+     */
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * 设置创建时间
+     *
+     * @param createTime 创建时间
+     */
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     /**

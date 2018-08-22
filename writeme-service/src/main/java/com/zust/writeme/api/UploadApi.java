@@ -27,7 +27,7 @@ public class UploadApi {
 
     @ApiOperation(value = "模拟图片上传", notes = "模拟图片上传")
     @RequestMapping(value = "/virtualUpload", method = RequestMethod.POST)
-    public ResponseEntity<ApiResponse> virtualUpload(@RequestParam(value = "file") MultipartFile multipartFile) {
+    public ResponseEntity<ApiResponse> virtualUpload(@RequestParam(value = "file") MultipartFile file) {
         JSONObject obj = new JSONObject();
         obj.put("url", "http://www.dinry.top/a.jpg");
         ApiResponse res = new ApiResponse(200, "ok", obj);

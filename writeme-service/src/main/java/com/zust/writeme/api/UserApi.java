@@ -54,15 +54,19 @@ public class UserApi {
     @ApiOperation(value = "通过id搜索用户")
     @RequestMapping(value = "/getUserInfoById", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> getUserInfoById(
-            @ApiParam(name = "userId", value = "用户昵称", required = true) @RequestParam(value = "userId", required = true) int userId
+            @ApiParam(name = "userId", value = "userId", required = true) @RequestParam(value = "userId", required = true) int userId
     ) {
         User user = userService.getUserById(userId);
-        return ApiResponse.successResponse(user);
+        if (user !=null){
+            return ApiResponse.successResponse(user);
+        }else{
+            return ApiResponse.errorResponse("未找到该用户");
+        }
     }
 
-    @ApiOperation(value = "通过token搜索用户")
-    @RequestMapping(value = "/getUserInfoByToken", method = RequestMethod.POST)
-    public ResponseEntity<ApiResponse> getUserInfoByToken(
+    @ApiOperation(value = "通过token搜索用户id")
+    @RequestMapping(value = "/getUserIdByToken", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> getUserIdByToken(
             @ApiParam(name = "token", value = "token", required = true) @RequestParam(value = "token", required = true) String token
     ) {
         Map<String,Object> map = TokenUtils.validToken(token);
@@ -70,8 +74,7 @@ public class UserApi {
         if (flag){
             int userId =  Integer.parseInt((String)map.get("uid"));
             String account = (String) map.get("account");
-            User user = userService.getUserById(userId);
-            return ApiResponse.successResponse(user);
+            return ApiResponse.successResponse(userId);
         }else{
             return ApiResponse.errorResponse("登陆过期，请重新登陆");
         }

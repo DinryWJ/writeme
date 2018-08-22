@@ -8,7 +8,7 @@ import com.zust.writeme.model.Article;
  */
 public interface ArticleService {
 
-    int addArticle(String title, String content, int corpusId, int userId);
+    int addArticle(String title, String content, String preview, int corpusId, int userId);
 
     Article getArticleById(int articleId);
 
@@ -17,4 +17,6 @@ public interface ArticleService {
     int deleteArticleById(int articleId);
 
     int updateArticle(int articleId, String title, String content, int corpusId);
+
+    Pagination<Article> getArticleListByUserId(int userId, int status, int pageNum, int pageSize);
 }
