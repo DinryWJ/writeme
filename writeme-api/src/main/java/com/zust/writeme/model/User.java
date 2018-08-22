@@ -8,7 +8,7 @@ public class User {
      */
     @Id
     @Column(name = "user_id")
-    private int userId;
+    private Integer userId;
 
     /**
      * 用户账号
@@ -23,15 +23,15 @@ public class User {
     private String userPassword;
 
     /**
+     * 用户昵称
+     */
+    @Column(name = "user_name")
+    private String userName;
+
+    /**
      * M -男 F -女
      */
     private String sex;
-
-    /**
-     * 用户简介
-     */
-    @Column(name = "user_abstract")
-    private String userAbstract;
 
     /**
      * 0为普通用户，1为管理员
@@ -40,27 +40,19 @@ public class User {
     private String userPermission;
 
     /**
-     * 用户昵称
+     * 用户简介
      */
-    @Column(name = "user_name")
-    private String userName;
+    @Column(name = "user_abstract")
+    private String userAbstract;
 
     private String status;
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     /**
      * 获取用户id
      *
      * @return user_id - 用户id
      */
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
@@ -69,7 +61,7 @@ public class User {
      *
      * @param userId 用户id
      */
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -110,6 +102,24 @@ public class User {
     }
 
     /**
+     * 获取用户昵称
+     *
+     * @return user_name - 用户昵称
+     */
+    public String getUserName() {
+        return userName;
+    }
+
+    /**
+     * 设置用户昵称
+     *
+     * @param userName 用户昵称
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    /**
      * 获取M -男 F -女
      *
      * @return sex - M -男 F -女
@@ -125,24 +135,6 @@ public class User {
      */
     public void setSex(String sex) {
         this.sex = sex;
-    }
-
-    /**
-     * 获取用户简介
-     *
-     * @return user_abstract - 用户简介
-     */
-    public String getUserAbstract() {
-        return userAbstract;
-    }
-
-    /**
-     * 设置用户简介
-     *
-     * @param userAbstract 用户简介
-     */
-    public void setUserAbstract(String userAbstract) {
-        this.userAbstract = userAbstract;
     }
 
     /**
@@ -164,20 +156,34 @@ public class User {
     }
 
     /**
-     * 获取用户昵称
+     * 获取用户简介
      *
-     * @return user_name - 用户昵称
+     * @return user_abstract - 用户简介
      */
-    public String getUserName() {
-        return userName;
+    public String getUserAbstract() {
+        return userAbstract;
     }
 
     /**
-     * 设置用户昵称
+     * 设置用户简介
      *
-     * @param userName 用户昵称
+     * @param userAbstract 用户简介
      */
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserAbstract(String userAbstract) {
+        this.userAbstract = userAbstract;
+    }
+
+    /**
+     * @return status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status
+     */
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

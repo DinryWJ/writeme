@@ -18,7 +18,7 @@ public class Comment {
     private String commentContent;
 
     /**
-     * 评论时间戳
+     * 评论时间
      */
     @Column(name = "comment_time")
     private Date commentTime;
@@ -72,18 +72,18 @@ public class Comment {
     }
 
     /**
-     * 获取评论时间戳
+     * 获取评论时间
      *
-     * @return comment_time - 评论时间戳
+     * @return comment_time - 评论时间
      */
     public Date getCommentTime() {
         return commentTime;
     }
 
     /**
-     * 设置评论时间戳
+     * 设置评论时间
      *
-     * @param commentTime 评论时间戳
+     * @param commentTime 评论时间
      */
     public void setCommentTime(Date commentTime) {
         this.commentTime = commentTime;

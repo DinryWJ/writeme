@@ -39,7 +39,7 @@ public class ArticleApi {
             Map<String,Object> map = TokenUtils.validToken(token);
             boolean flag = (boolean) map.get("success");
             if (flag){
-                int userId = ((Long) map.get("uid")).intValue();
+                int userId =  Integer.parseInt((String)map.get("uid"));
                 String account = (String) map.get("account");
                 int eff = articleService.addArticle(title, content, corpusId, userId);
                 return ApiResponse.successResponse(eff);

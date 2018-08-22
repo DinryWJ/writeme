@@ -5,6 +5,7 @@
 package com.zust.writeme.api;
 
 import com.zust.writeme.common.util.Pagination;
+import com.zust.writeme.common.util.TokenUtils;
 import com.zust.writeme.model.User;
 import com.zust.writeme.service.userService.UserService;
 import io.swagger.annotations.Api;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 @Api(value = "用户管理", description = "用户管理")
 @RequestMapping(value = "/user")
@@ -46,6 +48,32 @@ public class UserApi {
             user.setStatus("0");
             int eff = userService.insertUser(user);
             return ApiResponse.successResponse(eff);
+        }
+    }
+
+    @ApiOperation(value = "通过id搜索用户")
+    @RequestMapping(value = "/getUserInfoById", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> getUserInfoById(
+            @ApiParam(name = "userId", value = "用户昵称", required = true) @RequestParam(value = "userId", required = true) int userId
+    ) {
+        User user = userService.getUserById(userId);
+        return ApiResponse.successResponse(user);
+    }
+
+    @ApiOperation(value = "通过token搜索用户")
+    @RequestMapping(value = "/getUserInfoByToken", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> getUserInfoByToken(
+            @ApiParam(name = "token", value = "token", required = true) @RequestParam(value = "token", required = true) String token
+    ) {
+        Map<String,Object> map = TokenUtils.validToken(token);
+        boolean flag = (boolean) map.get("success");
+        if (flag){
+            int userId =  Integer.parseInt((String)map.get("uid"));
+            String account = (String) map.get("account");
+            User user = userService.getUserById(userId);
+            return ApiResponse.successResponse(user);
+        }else{
+            return ApiResponse.errorResponse("登陆过期，请重新登陆");
         }
     }
 
