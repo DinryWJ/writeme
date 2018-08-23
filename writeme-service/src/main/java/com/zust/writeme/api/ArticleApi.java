@@ -1,9 +1,12 @@
 package com.zust.writeme.api;
 
+import com.netflix.discovery.converters.Auto;
 import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.common.util.TokenUtils;
 import com.zust.writeme.model.Article;
+import com.zust.writeme.model.User;
 import com.zust.writeme.service.articleService.ArticleService;
+import com.zust.writeme.service.userService.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -28,6 +31,9 @@ public class ArticleApi {
     @Autowired
     private ArticleService articleService;
 
+    @Autowired
+    private UserService userService;
+
     @ApiOperation(value = "新增文章", notes = "新增文章")
     @RequestMapping(value = "/addArticle", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> addArticle(
@@ -35,6 +41,7 @@ public class ArticleApi {
             @ApiParam(value = "文章标题", name = "title", required = true) @RequestParam(value = "title", required = true) String title,
             @ApiParam(value = "文章内容", name = "content", required = true) @RequestParam(value = "content", required = true) String content,
             @ApiParam(value = "文章预览", name = "preview", required = true) @RequestParam(value = "preview", required = true) String preview,
+            @ApiParam(value = "文章封面", name = "coverImg", required = true) @RequestParam(value = "coverImg", required = true) String coverImg,
             @ApiParam(value = "文集id", name = "corpusId", required = true) @RequestParam(value = "corpusId", required = true) int corpusId
     ) {
         Map<String, Object> map = TokenUtils.validToken(token);
@@ -42,7 +49,7 @@ public class ArticleApi {
         if (flag) {
             int userId = Integer.parseInt((String) map.get("uid"));
             String account = (String) map.get("account");
-            int eff = articleService.addArticle(title, content, preview, corpusId, userId);
+            int eff = articleService.addArticle(title, content, preview, coverImg, corpusId, userId);
             return ApiResponse.successResponse(eff);
         } else {
             return ApiResponse.errorResponse("登陆过期，请重新登陆");
@@ -67,7 +74,13 @@ public class ArticleApi {
             @ApiParam(value = "文章id", name = "articleId", required = true) @RequestParam(value = "articleId", required = true) int articleId
     ) {
         Article article = articleService.getArticleById(articleId);
-        return ApiResponse.successResponse(article);
+        if (article != null) {
+            User author = userService.getUserById(article.getUserId());
+            article.setAuthor(author);
+            return ApiResponse.successResponse(article);
+        } else {
+            return ApiResponse.errorResponse("文章不存在");
+        }
     }
 
     @ApiOperation(value = "文章标题模糊查询", notes = "文章标题模糊查询")

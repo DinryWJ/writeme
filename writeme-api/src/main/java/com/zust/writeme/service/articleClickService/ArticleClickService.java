@@ -7,4 +7,6 @@ public interface ArticleClickService {
     int nolike(int articleId, int userId);
 
     boolean isExist(int articleId, int userId);
+
+    int getStarsCount(int articleId);
 }

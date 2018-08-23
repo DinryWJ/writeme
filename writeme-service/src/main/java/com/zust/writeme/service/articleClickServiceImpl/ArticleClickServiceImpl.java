@@ -17,17 +17,15 @@ public class ArticleClickServiceImpl implements ArticleClickService {
 
     @Override
     public int like(int articleId, int userId) {
-
         ArticleClick articleClick = new ArticleClick();
         articleClick.setArticleId(articleId);
         articleClick.setUserId(userId);
 
-        return articleClickMapper.insert(articleClick);
+        return articleClickMapper.insertSelective(articleClick);
     }
 
     @Override
     public int nolike(int articleId, int userId) {
-
         Example example = new Example(ArticleClick.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("articleId", articleId);
@@ -43,10 +41,18 @@ public class ArticleClickServiceImpl implements ArticleClickService {
         criteria.andEqualTo("articleId", articleId);
         criteria.andEqualTo("userId", userId);
 
-        List<ArticleClick> articleList = articleClickMapper.selectByExample(example);
-        if (!articleList.isEmpty())
-            return true;
-        return false;
+        int count = articleClickMapper.selectCountByExample(example);
+        return count > 0;
+    }
+
+    @Override
+    public int getStarsCount(int articleId) {
+        Example example = new Example(ArticleClick.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("articleId", articleId);
+
+        int count = articleClickMapper.selectCountByExample(example);
+        return count;
     }
 
 }

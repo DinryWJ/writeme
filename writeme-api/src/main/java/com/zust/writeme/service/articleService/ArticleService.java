@@ -8,7 +8,7 @@ import com.zust.writeme.model.Article;
  */
 public interface ArticleService {
 
-    int addArticle(String title, String content, String preview, int corpusId, int userId);
+    int addArticle(String title, String content, String preview, String coverImg, int corpusId, int userId);
 
     Article getArticleById(int articleId);
 
