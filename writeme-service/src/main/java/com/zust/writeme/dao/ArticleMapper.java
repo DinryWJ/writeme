@@ -9,11 +9,7 @@ import javax.persistence.Id;
 import java.util.List;
 
 public interface ArticleMapper extends MyMapper<Article> {
-    @Select("SELECT a.*,u.* \n" +
-            "from article a,user u\n" +
-            "where u.user_id = #{userId}\n" +
-            "and a.user_id = u.user_id\n" +
-            "and a.`status` = #{status}\n")
+    @Select("select * from article where user_id = #{userId} and status = #{status}")
     @Results({
             @Result(column = "article_id", property = "articleId"),
             @Result(column = "title", property = "title"),
