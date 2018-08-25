@@ -1,6 +1,10 @@
 package com.zust.writeme.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 public class Comment {
@@ -20,6 +24,8 @@ public class Comment {
     /**
      * 评论时间
      */
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @Column(name = "comment_time")
     private Date commentTime;
 
@@ -35,93 +41,98 @@ public class Comment {
     @Column(name = "user_id")
     private Integer userId;
 
-    /**
-     * 获取评论表id
-     *
-     * @return comment_id - 评论表id
-     */
+    @Column(name = "commented_user_id")
+    private Integer commentedUserId;
+
+    @Column(name = "parent_comment_id")
+    private Integer parentCommentId;
+
+    @Column(name = "is_read")
+    private String isRead;
+
+    @Transient
+    private User user;
+
+    @Transient
+    private List<Comment> commentList;
+
     public Integer getCommentId() {
         return commentId;
     }
 
-    /**
-     * 设置评论表id
-     *
-     * @param commentId 评论表id
-     */
     public void setCommentId(Integer commentId) {
         this.commentId = commentId;
     }
 
-    /**
-     * 获取评论内容
-     *
-     * @return comment_content - 评论内容
-     */
     public String getCommentContent() {
         return commentContent;
     }
 
-    /**
-     * 设置评论内容
-     *
-     * @param commentContent 评论内容
-     */
     public void setCommentContent(String commentContent) {
         this.commentContent = commentContent;
     }
 
-    /**
-     * 获取评论时间
-     *
-     * @return comment_time - 评论时间
-     */
     public Date getCommentTime() {
         return commentTime;
     }
 
-    /**
-     * 设置评论时间
-     *
-     * @param commentTime 评论时间
-     */
     public void setCommentTime(Date commentTime) {
         this.commentTime = commentTime;
     }
 
-    /**
-     * 获取文章id
-     *
-     * @return article_id - 文章id
-     */
     public Integer getArticleId() {
         return articleId;
     }
 
-    /**
-     * 设置文章id
-     *
-     * @param articleId 文章id
-     */
     public void setArticleId(Integer articleId) {
         this.articleId = articleId;
     }
 
-    /**
-     * 获取评论用户id
-     *
-     * @return user_id - 评论用户id
-     */
     public Integer getUserId() {
         return userId;
     }
 
-    /**
-     * 设置评论用户id
-     *
-     * @param userId 评论用户id
-     */
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getCommentedUserId() {
+        return commentedUserId;
+    }
+
+    public void setCommentedUserId(Integer commentedUserId) {
+        this.commentedUserId = commentedUserId;
+    }
+
+    public Integer getParentCommentId() {
+        return parentCommentId;
+    }
+
+    public void setParentCommentId(Integer parentCommentId) {
+        this.parentCommentId = parentCommentId;
+    }
+
+    public String getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(String isRead) {
+        this.isRead = isRead;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
     }
 }

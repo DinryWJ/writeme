@@ -46,6 +46,8 @@ public class LoginApi {
                 String token = TokenUtils.createToken(String.valueOf(user.getUserId()), user.getUserAccount());
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("token", token);
+                map.put("userId",user.getUserId());
+                map.put("userName",user.getUserName());
                 return ApiResponse.successResponse(map);
             } else {
                 return ApiResponse.errorResponse("该账号被禁用，请联系管理员");

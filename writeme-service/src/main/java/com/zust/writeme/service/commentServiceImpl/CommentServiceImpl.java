@@ -20,31 +20,28 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public Pagination<Comment> getAllComment(int pageNum,int pageSize) {
-
+    public Pagination<Comment> getArticleComment(int articleId, int pageNum, int pageSize) {
         Pagination<Comment> pagination = new Pagination<>();
-        Example example = new Example(Comment.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andIsNotNull("commentId");
-        PageHelper.startPage(pageNum,pageSize);
-        List<Comment> commentList = commentMapper.selectByExample(example);
+
+        PageHelper.startPage(pageNum, pageSize);
+        List<Comment> commentList = commentMapper.getArticleComment(articleId);
 
         pagination.setList(commentList);
         pagination.setPageNum((long) pageNum);
         pagination.setPageSize((long) pageSize);
-        pagination.setTotal(((Page)commentList).getTotal());
+        pagination.setTotal(((Page) commentList).getTotal());
         return pagination;
     }
 
     @Override
-    public int update(int CommentId ,Comment comment) {
+    public int update(int CommentId, Comment comment) {
 
         return commentMapper.updateByPrimaryKeySelective(comment);
     }
 
     @Override
     public int add(Comment comment) {
-        return commentMapper.insert(comment);
+        return commentMapper.insertSelective(comment);
     }
 
     @Override

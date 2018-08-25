@@ -4,8 +4,7 @@ import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.model.Comment;
 
 public interface CommentService {
-
-    Pagination<Comment> getAllComment(int pageNum, int pageSize);
+    Pagination<Comment> getArticleComment(int articleId, int pageNum, int pageSize);
 
     int update(int CommentId, Comment comment);
 
@@ -14,4 +13,5 @@ public interface CommentService {
     int delete(int CommentId);
 
     Comment selectCommentById(int CommentId);
+
 }
