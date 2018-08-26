@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.Date;
 
 public class Concern {
@@ -31,6 +32,15 @@ public class Concern {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "create_time")
     private Date createTime;
+
+    @Transient
+    private User concernerUser;
+    @Transient
+    private User concernedUser;
+    @Transient
+    private int userArticleCount;
+    @Transient
+    private int userConcernedCount;
 
     public Integer getConcernId() {
         return concernId;
@@ -62,5 +72,37 @@ public class Concern {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public User getConcernerUser() {
+        return concernerUser;
+    }
+
+    public void setConcernerUser(User concernerUser) {
+        this.concernerUser = concernerUser;
+    }
+
+    public User getConcernedUser() {
+        return concernedUser;
+    }
+
+    public void setConcernedUser(User concernedUser) {
+        this.concernedUser = concernedUser;
+    }
+
+    public int getUserArticleCount() {
+        return userArticleCount;
+    }
+
+    public void setUserArticleCount(int userArticleCount) {
+        this.userArticleCount = userArticleCount;
+    }
+
+    public int getUserConcernedCount() {
+        return userConcernedCount;
+    }
+
+    public void setUserConcernedCount(int userConcernedCount) {
+        this.userConcernedCount = userConcernedCount;
     }
 }

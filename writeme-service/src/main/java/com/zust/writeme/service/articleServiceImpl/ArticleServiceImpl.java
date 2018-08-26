@@ -5,7 +5,6 @@ import com.github.pagehelper.PageHelper;
 import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.dao.ArticleMapper;
 import com.zust.writeme.model.Article;
-import com.zust.writeme.model.User;
 import com.zust.writeme.service.articleService.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,5 +85,13 @@ public class ArticleServiceImpl implements ArticleService {
         pagination.setPageSize((long) pageSize);
         pagination.setTotal(((Page) articleList).getTotal());
         return pagination;
+    }
+
+    @Override
+    public int getUserArticleCount(int userId) {
+        Example example = new Example(Article.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("userId",userId);
+        return articleMapper.selectCountByExample(example);
     }
 }

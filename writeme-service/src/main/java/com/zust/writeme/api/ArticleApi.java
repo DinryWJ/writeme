@@ -1,6 +1,5 @@
 package com.zust.writeme.api;
 
-import com.netflix.discovery.converters.Auto;
 import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.common.util.TokenUtils;
 import com.zust.writeme.model.Article;

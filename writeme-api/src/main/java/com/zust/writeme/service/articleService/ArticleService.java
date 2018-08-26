@@ -19,4 +19,6 @@ public interface ArticleService {
     int updateArticle(int articleId, String title, String content, int corpusId);
 
     Pagination<Article> getArticleListByUserId(int userId, int status, int pageNum, int pageSize);
+
+    int getUserArticleCount(int userId);
 }
