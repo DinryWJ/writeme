@@ -1,6 +1,11 @@
 package com.zust.writeme.model;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import java.util.Date;
 
 public class Concern {
     /**
@@ -22,57 +27,40 @@ public class Concern {
     @Column(name = "concerned_id")
     private Integer concernedId;
 
-    /**
-     * 获取关注表id
-     *
-     * @return concern_id - 关注表id
-     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @Column(name = "create_time")
+    private Date createTime;
+
     public Integer getConcernId() {
         return concernId;
     }
 
-    /**
-     * 设置关注表id
-     *
-     * @param concernId 关注表id
-     */
     public void setConcernId(Integer concernId) {
         this.concernId = concernId;
     }
 
-    /**
-     * 获取用户id
-     *
-     * @return user_id - 用户id
-     */
     public Integer getUserId() {
         return userId;
     }
 
-    /**
-     * 设置用户id
-     *
-     * @param userId 用户id
-     */
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    /**
-     * 获取被关注的用户的id
-     *
-     * @return concerned_id - 被关注的用户的id
-     */
     public Integer getConcernedId() {
         return concernedId;
     }
 
-    /**
-     * 设置被关注的用户的id
-     *
-     * @param concernedId 被关注的用户的id
-     */
     public void setConcernedId(Integer concernedId) {
         this.concernedId = concernedId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }
