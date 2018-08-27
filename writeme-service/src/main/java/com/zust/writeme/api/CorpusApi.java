@@ -27,9 +27,10 @@ public class CorpusApi {
     @ApiOperation(value = "添加文集", notes = "添加文集")
     @RequestMapping(value = "/addCorpus", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> add(
-            @ApiParam(name = "Corpus", value = "添加文集json格式", required = true) @RequestBody Corpus corpus
+            @ApiParam(name = "articleName", value = "文集名", required = true) @RequestParam(value = "articleName", required = true) String articleName,
+            @ApiParam(name = "userId", value = "用户ID", required = true) @RequestParam(value = "userId", required = true) int userId
     ) {
-        int eff = corpusService.add(corpus);
+        int eff = corpusService.add(articleName,userId);
         return ApiResponse.successResponse(eff);
     }
 

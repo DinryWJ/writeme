@@ -1,10 +1,10 @@
 package com.zust.writeme.service.corpusService;
 
-import com.zust.writeme.model.Corpus;
+
 
 public interface CorpusService {
 
-    int add(Corpus corpus);
+    int add(String articleName,int userId);
 
     int delete(int corpusId);
 }

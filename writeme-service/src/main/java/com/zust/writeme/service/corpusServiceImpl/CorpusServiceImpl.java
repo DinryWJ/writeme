@@ -12,7 +12,10 @@ public class CorpusServiceImpl implements CorpusService {
     private CorpusMapper corpusMapper;
 
     @Override
-    public int add(Corpus corpus) {
+    public int add(String articleName,int userId) {
+        Corpus corpus = new Corpus();
+        corpus.setCorpusName(articleName);
+        corpus.setUserId(userId);
         return corpusMapper.insert(corpus);
     }
 
