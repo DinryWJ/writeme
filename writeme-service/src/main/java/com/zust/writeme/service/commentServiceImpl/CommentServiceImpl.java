@@ -56,4 +56,12 @@ public class CommentServiceImpl implements CommentService {
         return commentMapper.selectByPrimaryKey(CommentId);
 
     }
+
+    @Override
+    public int getCommentNumByArticleId(int articleId) {
+        Example example = new Example(Comment.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("articleId", articleId);
+        return commentMapper.selectCountByExample(example);
+    }
 }

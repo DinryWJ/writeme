@@ -20,7 +20,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
-    public int addArticle(String title, String content, String preview, String coverImg, int corpusId, int userId) {
+    public int addArticle(String title, String content, String preview, String coverImg, int corpusId, int userId, int status) {
         Article article = new Article();
         article.setTitle(title);
         article.setArticleContent(content);
@@ -28,6 +28,7 @@ public class ArticleServiceImpl implements ArticleService {
         article.setCoverImg(coverImg);
         article.setCorpusId(corpusId);
         article.setUserId(userId);
+        article.setStatus(status);
         article.setCreateTime(new Date());
         return articleMapper.insertSelective(article);
     }
@@ -61,6 +62,11 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = new Article();
         article.setArticleId(articleId);
         return articleMapper.deleteByPrimaryKey(article);
+    }
+
+    @Override
+    public int updateArticle(Article article) {
+        return articleMapper.updateByPrimaryKey(article);
     }
 
     @Override

@@ -14,4 +14,6 @@ public interface CommentService {
 
     Comment selectCommentById(int CommentId);
 
+    int getCommentNumByArticleId(int articleId);
+
 }
