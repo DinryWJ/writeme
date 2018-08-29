@@ -41,7 +41,7 @@ public class ArticleApi {
     @Autowired
     private ArticleClickService articleClickService;
 
-    @ApiOperation(value = "新增文章", notes = "新增文章")
+    @ApiOperation(value = "发布文章", notes = "发布文章")
     @RequestMapping(value = "/publish", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> publish(
             @ApiParam(value = "token", name = "token", required = true) @RequestParam(value = "token", required = true) String token,
@@ -49,15 +49,35 @@ public class ArticleApi {
             @ApiParam(value = "文章内容", name = "content", required = true) @RequestParam(value = "content", required = true) String content,
             @ApiParam(value = "文章预览", name = "preview", required = true) @RequestParam(value = "preview", required = true) String preview,
             @ApiParam(value = "文章封面", name = "coverImg", required = true) @RequestParam(value = "coverImg", required = true) String coverImg,
-            @ApiParam(value = "文集id", name = "corpusId", required = true) @RequestParam(value = "corpusId", required = true) int corpusId,
-            @ApiParam(value = "发布状态", name = "status", required = true) @RequestParam(value = "status", required = true) int status
+            @ApiParam(value = "文集id", name = "corpusId", required = true) @RequestParam(value = "corpusId", required = true) int corpusId
     ) {
         Map<String, Object> map = TokenUtils.validToken(token);
         boolean flag = (boolean) map.get("success");
         if (flag) {
             int userId = Integer.parseInt((String) map.get("uid"));
             String account = (String) map.get("account");
+            int status = 0;
             int eff = articleService.addArticle(title, content, preview, coverImg, corpusId, userId, status);
+            return ApiResponse.successResponse(eff);
+        } else {
+            return ApiResponse.errorResponse("登陆过期，请重新登陆");
+        }
+    }
+    @ApiOperation(value = "新增保存文章", notes = "新增保存文章")
+    @RequestMapping(value = "/saveArticle", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> saveArticle(
+            @ApiParam(value = "token", name = "token", required = true) @RequestParam(value = "token", required = true) String token,
+            @ApiParam(value = "文章标题", name = "title", required = true) @RequestParam(value = "title", required = true) String title,
+            @ApiParam(value = "文章内容", name = "content", required = true) @RequestParam(value = "content", required = true) String content,
+            @ApiParam(value = "文集id", name = "corpusId", required = true) @RequestParam(value = "corpusId", required = true) int corpusId
+    ) {
+        Map<String, Object> map = TokenUtils.validToken(token);
+        boolean flag = (boolean) map.get("success");
+        if (flag) {
+            int userId = Integer.parseInt((String) map.get("uid"));
+            String account = (String) map.get("account");
+            int status = 2;
+            int eff = articleService.addArticle(title, content, null, null, corpusId, userId, status);
             return ApiResponse.successResponse(eff);
         } else {
             return ApiResponse.errorResponse("登陆过期，请重新登陆");
@@ -122,6 +142,8 @@ public class ArticleApi {
         Article article = articleService.getArticleById(articleId);
         if (article != null) {
             User author = userService.getUserById(article.getUserId());
+            article.setStarNum(articleClickService.getStarsCount(articleId));
+            article.setCommentNum(commentService.getCommentNumByArticleId(articleId));
             article.setAuthor(author);
             return ApiResponse.successResponse(article);
         } else {
@@ -149,7 +171,7 @@ public class ArticleApi {
         return ApiResponse.successResponse(eff);
     }
 
-    @ApiOperation(value = "更新文章信息", notes = "更新文章信息")
+    @ApiOperation(value = "更新保存文章", notes = "更新保存文章")
     @RequestMapping(value = "/updateArticle", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> updateArticle(
             @ApiParam(value = "token", name = "token", required = true) @RequestParam(value = "token", required = true) String token,
