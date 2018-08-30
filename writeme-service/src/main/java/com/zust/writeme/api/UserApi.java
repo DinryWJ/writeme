@@ -101,4 +101,28 @@ public class UserApi {
         return ApiResponse.successResponse(pagination);
     }
 
+    @ApiOperation(value = "获取我的推荐用户")
+    @RequestMapping(value = "/getMyRecommentUserList", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> getMyRecommentUserList(
+            @ApiParam(name = "token", value = "token", required = true) @RequestParam(value = "token", required = true) String token,
+            @ApiParam(value = "pageNum", name = "pageNum", required = true) @RequestParam(value = "pageNum", required = true) int pageNum,
+            @ApiParam(value = "pageSize", name = "pageSize", required = true) @RequestParam(value = "pageSize", required = true) int pageSize
+    ) {
+        Map<String,Object> map = TokenUtils.validToken(token);
+        boolean flag = (boolean) map.get("success");
+        if (flag){
+            int userId =  Integer.parseInt((String)map.get("uid"));
+            String account = (String) map.get("account");
+            Pagination<User> pagination = userService.getMyRecommentUserList(userId, pageNum, pageSize);
+
+            for (User user : pagination.getList()) {
+                user.setFromUserName(userService.getUserById(user.getFromUserId()).getUserName());
+                user.setConcernStatus(0);
+            }
+            return ApiResponse.successResponse(pagination);
+        }else{
+            return ApiResponse.errorResponse("登陆过期，请重新登陆");
+        }
+
+    }
 }

@@ -53,6 +53,13 @@ public class User {
     @Column(name = "user_image")
     private String userImage;
 
+    @Transient
+    private int fromUserId;
+    @Transient
+    private String fromUserName;
+    @Transient
+    private int concernStatus;
+
     public Integer getUserId() {
         return userId;
     }
@@ -123,5 +130,29 @@ public class User {
 
     public void setUserImage(String userImage) {
         this.userImage = userImage;
+    }
+
+    public int getFromUserId() {
+        return fromUserId;
+    }
+
+    public void setFromUserId(int fromUserId) {
+        this.fromUserId = fromUserId;
+    }
+
+    public String getFromUserName() {
+        return fromUserName;
+    }
+
+    public void setFromUserName(String fromUserName) {
+        this.fromUserName = fromUserName;
+    }
+
+    public int getConcernStatus() {
+        return concernStatus;
+    }
+
+    public void setConcernStatus(int concernStatus) {
+        this.concernStatus = concernStatus;
     }
 }

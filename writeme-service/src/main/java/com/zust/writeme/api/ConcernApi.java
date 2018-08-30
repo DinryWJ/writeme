@@ -3,6 +3,7 @@ package com.zust.writeme.api;
 import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.common.util.TokenUtils;
 import com.zust.writeme.model.Concern;
+import com.zust.writeme.model.User;
 import com.zust.writeme.service.articleService.ArticleService;
 import com.zust.writeme.service.concernService.ConcernService;
 import io.swagger.annotations.Api;
@@ -100,6 +101,9 @@ public class ConcernApi {
         for (Concern concern : pagination.getList()) {
             concern.setUserArticleCount(articleService.getUserArticleCount(concern.getConcernerUser().getUserId()));
             concern.setUserConcernedCount(concernService.getUserConcernCount(concern.getConcernerUser().getUserId()));
+            User user= concern.getConcernerUser();
+            user.setConcernStatus(concernService.getValidConcern(userId,user.getUserId()));
+            concern.setConcernerUser(user);
         }
         return ApiResponse.successResponse(pagination);
     }
@@ -124,6 +128,9 @@ public class ConcernApi {
         for (Concern concern : pagination.getList()) {
             concern.setUserArticleCount(articleService.getUserArticleCount(concern.getConcernedUser().getUserId()));
             concern.setUserConcernedCount(concernService.getUserConcernCount(concern.getConcernedUser().getUserId()));
+            User user= concern.getConcernedUser();
+            user.setConcernStatus(concernService.getValidConcern(userId,user.getUserId()));
+            concern.setConcernedUser(user);
         }
         return ApiResponse.successResponse(pagination);
     }

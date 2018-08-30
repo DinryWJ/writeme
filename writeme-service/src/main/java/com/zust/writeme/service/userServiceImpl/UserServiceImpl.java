@@ -88,4 +88,18 @@ public class UserServiceImpl implements UserService {
         return pagination;
     }
 
+    @Override
+    public Pagination<User> getMyRecommentUserList(int userId, int pageNum, int pageSize) {
+        Pagination<User> pagination = new Pagination<>();
+
+        PageHelper.startPage(pageNum, pageSize);
+        List<User> userList = userMapper.getMyRecommentUserList(userId);
+
+        pagination.setList(userList);
+        pagination.setPageNum((long) pageNum);
+        pagination.setPageSize((long) pageSize);
+        pagination.setTotal(((Page) userList).getTotal());
+        return pagination;
+    }
+
 }
