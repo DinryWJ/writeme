@@ -70,4 +70,13 @@ public interface UserService {
      * @return
      */
     Pagination<User> getMyRecommentUserList(int userId, int pageNum, int pageSize);
+
+    /**
+     * 根据账号搜索用户
+     * @param account
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    Pagination<User> getUserListByUserAccount(String account, int pageNum, int pageSize);
 }

@@ -57,9 +57,9 @@ public class UserApi {
             @ApiParam(name = "userId", value = "userId", required = true) @RequestParam(value = "userId", required = true) int userId
     ) {
         User user = userService.getUserById(userId);
-        if (user !=null){
+        if (user != null) {
             return ApiResponse.successResponse(user);
-        }else{
+        } else {
             return ApiResponse.errorResponse("未找到该用户");
         }
     }
@@ -69,35 +69,47 @@ public class UserApi {
     public ResponseEntity<ApiResponse> getUserIdByToken(
             @ApiParam(name = "token", value = "token", required = true) @RequestParam(value = "token", required = true) String token
     ) {
-        Map<String,Object> map = TokenUtils.validToken(token);
+        Map<String, Object> map = TokenUtils.validToken(token);
         boolean flag = (boolean) map.get("success");
-        if (flag){
-            int userId =  Integer.parseInt((String)map.get("uid"));
+        if (flag) {
+            int userId = Integer.parseInt((String) map.get("uid"));
             String account = (String) map.get("account");
             return ApiResponse.successResponse(userId);
-        }else{
+        } else {
             return ApiResponse.errorResponse("登陆过期，请重新登陆");
         }
     }
 
-    @ApiOperation(value = "陈列所有用户")
-    @RequestMapping(value = "/listUser", method = RequestMethod.POST)
-    public ResponseEntity<ApiResponse> selectAllUser(
-            @ApiParam(value = "pageNum", name = "pageNum", required = true) @RequestParam(value = "pageNum", required = true) int pageNum,
-            @ApiParam(value = "pageSize", name = "pageSize", required = true) @RequestParam(value = "pageSize", required = true) int pageSize
-    ) {
-        Pagination<User> pagination = userService.getTotalUser(pageNum, pageSize);
-        return ApiResponse.successResponse(pagination);
-    }
+//    @ApiOperation(value = "陈列所有用户")
+//    @RequestMapping(value = "/listUser", method = RequestMethod.POST)
+//    public ResponseEntity<ApiResponse> selectAllUser(
+//            @ApiParam(value = "pageNum", name = "pageNum", required = true) @RequestParam(value = "pageNum", required = true) int pageNum,
+//            @ApiParam(value = "pageSize", name = "pageSize", required = true) @RequestParam(value = "pageSize", required = true) int pageSize
+//    ) {
+//        Pagination<User> pagination = userService.getTotalUser(pageNum, pageSize);
+//        return ApiResponse.successResponse(pagination);
+//    }
 
     @ApiOperation(value = "用户模糊搜索")
     @RequestMapping(value = "/selectUserListByName", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> selectUserListByName(
-            @ApiParam(name = "userName", value = "用户昵称", required = true) @RequestParam(value = "name", required = true) String name,
+            @ApiParam(name = "name", value = "账号/用户名", required = false) @RequestParam(value = "name", required = false) String name,
+            @ApiParam(name = "flag", value = "账号 1/用户名 2", required = false) @RequestParam(value = "flag", required = false) String flag,
             @ApiParam(value = "pageNum", name = "pageNum", required = true) @RequestParam(value = "pageNum", required = true) int pageNum,
             @ApiParam(value = "pageSize", name = "pageSize", required = true) @RequestParam(value = "pageSize", required = true) int pageSize
     ) {
-        Pagination<User> pagination = userService.selectUserListByName(name, pageNum, pageSize);
+        Pagination<User> pagination = null;
+        if (name == null) {
+            pagination = userService.getTotalUser(pageNum, pageSize);
+        } else {
+            if ("1".equals(flag)) {
+                pagination = userService.getUserListByUserAccount(name, pageNum, pageSize);
+            }
+            if ("2".equals(flag)) {
+                pagination = userService.selectUserListByName(name, pageNum, pageSize);
+            }
+
+        }
         return ApiResponse.successResponse(pagination);
     }
 
@@ -108,10 +120,10 @@ public class UserApi {
             @ApiParam(value = "pageNum", name = "pageNum", required = true) @RequestParam(value = "pageNum", required = true) int pageNum,
             @ApiParam(value = "pageSize", name = "pageSize", required = true) @RequestParam(value = "pageSize", required = true) int pageSize
     ) {
-        Map<String,Object> map = TokenUtils.validToken(token);
+        Map<String, Object> map = TokenUtils.validToken(token);
         boolean flag = (boolean) map.get("success");
-        if (flag){
-            int userId =  Integer.parseInt((String)map.get("uid"));
+        if (flag) {
+            int userId = Integer.parseInt((String) map.get("uid"));
             String account = (String) map.get("account");
             Pagination<User> pagination = userService.getMyRecommentUserList(userId, pageNum, pageSize);
 
@@ -120,7 +132,7 @@ public class UserApi {
                 user.setConcernStatus(0);
             }
             return ApiResponse.successResponse(pagination);
-        }else{
+        } else {
             return ApiResponse.errorResponse("登陆过期，请重新登陆");
         }
 
