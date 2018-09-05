@@ -63,6 +63,7 @@ public class ArticleApi {
             return ApiResponse.errorResponse("登陆过期，请重新登陆");
         }
     }
+
     @ApiOperation(value = "新增保存文章", notes = "新增保存文章")
     @RequestMapping(value = "/saveArticle", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> saveArticle(
@@ -83,6 +84,7 @@ public class ArticleApi {
             return ApiResponse.errorResponse("登陆过期，请重新登陆");
         }
     }
+
     @ApiOperation(value = "重新发布文章", notes = "重新发布文章")
     @RequestMapping(value = "/republish", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> republish(
@@ -101,7 +103,7 @@ public class ArticleApi {
             String account = (String) map.get("account");
 
             Article article = articleService.getArticleById(articleId);
-            if (article.getUserId() == userId){
+            if (article.getUserId() == userId) {
                 article.setTitle(title);
                 article.setArticleContent(content);
                 article.setArticlePreview(preview);
@@ -110,7 +112,7 @@ public class ArticleApi {
                 article.setStatus(0);
                 int eff = articleService.updateArticle(article);
                 return ApiResponse.successResponse(eff);
-            }else {
+            } else {
                 return ApiResponse.errorResponse("无权发布这篇文章");
             }
 
@@ -118,6 +120,7 @@ public class ArticleApi {
             return ApiResponse.errorResponse("登陆过期，请重新登陆");
         }
     }
+
     @ApiOperation(value = "通过status获取用户文章列表", notes = "通过status获取用户文章列表")
     @RequestMapping(value = "/getArticleListByUserId", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> getArticleListByUserId(
@@ -151,14 +154,27 @@ public class ArticleApi {
         }
     }
 
-    @ApiOperation(value = "文章标题模糊查询", notes = "文章标题模糊查询")
-    @RequestMapping(value = "/getArticleListByTitleName", method = RequestMethod.POST)
+    @ApiOperation(value = "文章条件查询", notes = "文章条件查询")
+    @RequestMapping(value = "/getArticleListByCondition", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> getArticleListByTitleName(
-            @ApiParam(value = "文章标题", name = "title", required = true) @RequestParam(value = "title", required = true) String title,
+            @ApiParam(value = "value", name = "value", required = false) @RequestParam(value = "value", required = false) String value,
+            @ApiParam(value = "1文章名，2用户id", name = "flag", required = false) @RequestParam(value = "flag", required = false) int flag,
+            @ApiParam(value = "status", name = "status", required = false) @RequestParam(value = "status", required = false) int status,
             @ApiParam(value = "pageNum", name = "pageNum", required = true) @RequestParam(value = "pageNum", required = true) int pageNum,
             @ApiParam(value = "pageSize", name = "pageSize", required = true) @RequestParam(value = "pageSize", required = true) int pageSize
     ) {
-        Pagination<Article> articleList = articleService.getArticleListByTitleName(title, pageNum, pageSize);
+        Pagination<Article> articleList = null;
+        if (value != null) {
+            if (flag == 1) {
+                articleList = articleService.getArticleListByTitleName(value, status, pageNum, pageSize);
+            }
+            if (flag == 2) {
+                articleList = articleService.getArticleListByUserId(Integer.parseInt(value), status, pageNum, pageSize);
+            }
+        } else {
+            articleList = articleService.getArticleList(pageNum, pageSize);
+        }
+
         return ApiResponse.successResponse(articleList);
     }
 
@@ -186,10 +202,10 @@ public class ArticleApi {
             int userId = Integer.parseInt((String) map.get("uid"));
             String account = (String) map.get("account");
             Article article = articleService.getArticleById(articleId);
-            if (article.getUserId() == userId){
+            if (article.getUserId() == userId) {
                 int eff = articleService.updateArticle(articleId, title, content, corpusId);
                 return ApiResponse.successResponse(eff);
-            }else{
+            } else {
                 return ApiResponse.errorResponse("无权修改此文章");
             }
         } else {

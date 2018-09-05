@@ -12,7 +12,7 @@ public interface ArticleService {
 
     Article getArticleById(int articleId);
 
-    Pagination<Article> getArticleListByTitleName(String title, int pageNum, int pageSize);
+    Pagination<Article> getArticleListByTitleName(String title, int status, int pageNum, int pageSize);
 
     int deleteArticleById(int articleId);
 
@@ -24,5 +24,5 @@ public interface ArticleService {
 
     int getUserArticleCount(int userId);
 
-
+    Pagination<Article> getArticleList(int pageNum, int pageSize);
 }
