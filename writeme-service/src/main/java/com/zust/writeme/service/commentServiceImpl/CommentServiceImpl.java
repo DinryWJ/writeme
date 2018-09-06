@@ -67,6 +67,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+<<<<<<< HEAD
     public Pagination getNoReadCommentList(int userId, int pageNum, int pageSize) {
         Pagination<Map<String,Object>> pagination = new Pagination<>();
         List<Comment> comment1=commentMapper.getNoreadCommentList(userId);
@@ -95,5 +96,12 @@ public class CommentServiceImpl implements CommentService {
 
         pagination.setTotal((long)comment1.size());
         return pagination;
+=======
+    public int getCommentNumByArticleId(int articleId) {
+        Example example = new Example(Comment.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("articleId", articleId);
+        return commentMapper.selectCountByExample(example);
+>>>>>>> 80797ee3b7309e797b7650d85b5cea3c934c8664
     }
 }

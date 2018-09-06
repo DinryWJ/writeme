@@ -38,7 +38,7 @@ public class Article {
     private Integer corpusId;
 
     /**
-     * 0未发布 1发布
+     * 0审核 1发布 2保存
      */
     private Integer status;
 
@@ -58,6 +58,12 @@ public class Article {
 
     @Transient
     private User author;
+
+    @Transient
+    private Integer commentNum;
+
+    @Transient
+    private Integer starNum;
 
     public Integer getArticleId() {
         return articleId;
@@ -137,5 +143,21 @@ public class Article {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public Integer getCommentNum() {
+        return commentNum;
+    }
+
+    public void setCommentNum(Integer commentNum) {
+        this.commentNum = commentNum;
+    }
+
+    public Integer getStarNum() {
+        return starNum;
+    }
+
+    public void setStarNum(Integer starNum) {
+        this.starNum = starNum;
     }
 }

@@ -4,7 +4,9 @@ import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.common.util.TokenUtils;
 import com.zust.writeme.model.Article;
 import com.zust.writeme.model.User;
+import com.zust.writeme.service.articleClickService.ArticleClickService;
 import com.zust.writeme.service.articleService.ArticleService;
+import com.zust.writeme.service.commentService.CommentService;
 import com.zust.writeme.service.userService.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,9 +35,15 @@ public class ArticleApi {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "新增文章", notes = "新增文章")
-    @RequestMapping(value = "/addArticle", method = RequestMethod.POST)
-    public ResponseEntity<ApiResponse> addArticle(
+    @Autowired
+    private CommentService commentService;
+
+    @Autowired
+    private ArticleClickService articleClickService;
+
+    @ApiOperation(value = "发布文章", notes = "发布文章")
+    @RequestMapping(value = "/publish", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> publish(
             @ApiParam(value = "token", name = "token", required = true) @RequestParam(value = "token", required = true) String token,
             @ApiParam(value = "文章标题", name = "title", required = true) @RequestParam(value = "title", required = true) String title,
             @ApiParam(value = "文章内容", name = "content", required = true) @RequestParam(value = "content", required = true) String content,
@@ -48,8 +56,66 @@ public class ArticleApi {
         if (flag) {
             int userId = Integer.parseInt((String) map.get("uid"));
             String account = (String) map.get("account");
-            int eff = articleService.addArticle(title, content, preview, coverImg, corpusId, userId);
+            int status = 0;
+            int eff = articleService.addArticle(title, content, preview, coverImg, corpusId, userId, status);
             return ApiResponse.successResponse(eff);
+        } else {
+            return ApiResponse.errorResponse("登陆过期，请重新登陆");
+        }
+    }
+
+    @ApiOperation(value = "新增保存文章", notes = "新增保存文章")
+    @RequestMapping(value = "/saveArticle", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> saveArticle(
+            @ApiParam(value = "token", name = "token", required = true) @RequestParam(value = "token", required = true) String token,
+            @ApiParam(value = "文章标题", name = "title", required = true) @RequestParam(value = "title", required = true) String title,
+            @ApiParam(value = "文章内容", name = "content", required = true) @RequestParam(value = "content", required = true) String content,
+            @ApiParam(value = "文集id", name = "corpusId", required = true) @RequestParam(value = "corpusId", required = true) int corpusId
+    ) {
+        Map<String, Object> map = TokenUtils.validToken(token);
+        boolean flag = (boolean) map.get("success");
+        if (flag) {
+            int userId = Integer.parseInt((String) map.get("uid"));
+            String account = (String) map.get("account");
+            int status = 2;
+            int eff = articleService.addArticle(title, content, null, null, corpusId, userId, status);
+            return ApiResponse.successResponse(eff);
+        } else {
+            return ApiResponse.errorResponse("登陆过期，请重新登陆");
+        }
+    }
+
+    @ApiOperation(value = "重新发布文章", notes = "重新发布文章")
+    @RequestMapping(value = "/republish", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> republish(
+            @ApiParam(value = "token", name = "token", required = true) @RequestParam(value = "token", required = true) String token,
+            @ApiParam(value = "articleId", name = "articleId", required = true) @RequestParam(value = "articleId", required = true) int articleId,
+            @ApiParam(value = "文章标题", name = "title", required = true) @RequestParam(value = "title", required = true) String title,
+            @ApiParam(value = "文章内容", name = "content", required = true) @RequestParam(value = "content", required = true) String content,
+            @ApiParam(value = "文章预览", name = "preview", required = true) @RequestParam(value = "preview", required = true) String preview,
+            @ApiParam(value = "文章封面", name = "coverImg", required = true) @RequestParam(value = "coverImg", required = true) String coverImg,
+            @ApiParam(value = "文集id", name = "corpusId", required = true) @RequestParam(value = "corpusId", required = true) int corpusId
+    ) {
+        Map<String, Object> map = TokenUtils.validToken(token);
+        boolean flag = (boolean) map.get("success");
+        if (flag) {
+            int userId = Integer.parseInt((String) map.get("uid"));
+            String account = (String) map.get("account");
+
+            Article article = articleService.getArticleById(articleId);
+            if (article.getUserId() == userId) {
+                article.setTitle(title);
+                article.setArticleContent(content);
+                article.setArticlePreview(preview);
+                article.setCoverImg(coverImg);
+                article.setCorpusId(corpusId);
+                article.setStatus(0);
+                int eff = articleService.updateArticle(article);
+                return ApiResponse.successResponse(eff);
+            } else {
+                return ApiResponse.errorResponse("无权发布这篇文章");
+            }
+
         } else {
             return ApiResponse.errorResponse("登陆过期，请重新登陆");
         }
@@ -64,6 +130,10 @@ public class ArticleApi {
             @ApiParam(value = "pageSize", name = "pageSize", required = true) @RequestParam(value = "pageSize", required = true) int pageSize
     ) {
         Pagination<Article> pagination = articleService.getArticleListByUserId(userId, status, pageNum, pageSize);
+        for (Article article : pagination.getList()) {
+            article.setCommentNum(commentService.getCommentNumByArticleId(article.getArticleId()));
+            article.setStarNum(articleClickService.getStarsCount(article.getArticleId()));
+        }
         return ApiResponse.successResponse(pagination);
     }
 
@@ -75,6 +145,8 @@ public class ArticleApi {
         Article article = articleService.getArticleById(articleId);
         if (article != null) {
             User author = userService.getUserById(article.getUserId());
+            article.setStarNum(articleClickService.getStarsCount(articleId));
+            article.setCommentNum(commentService.getCommentNumByArticleId(articleId));
             article.setAuthor(author);
             return ApiResponse.successResponse(article);
         } else {
@@ -82,14 +154,27 @@ public class ArticleApi {
         }
     }
 
-    @ApiOperation(value = "文章标题模糊查询", notes = "文章标题模糊查询")
-    @RequestMapping(value = "/getArticleListByTitleName", method = RequestMethod.POST)
+    @ApiOperation(value = "文章条件查询", notes = "文章条件查询")
+    @RequestMapping(value = "/getArticleListByCondition", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> getArticleListByTitleName(
-            @ApiParam(value = "文章标题", name = "title", required = true) @RequestParam(value = "title", required = true) String title,
+            @ApiParam(value = "value", name = "value", required = false) @RequestParam(value = "value", required = false) String value,
+            @ApiParam(value = "1文章名，2用户id", name = "flag", required = false) @RequestParam(value = "flag", required = false) int flag,
+            @ApiParam(value = "status", name = "status", required = false) @RequestParam(value = "status", required = false) int status,
             @ApiParam(value = "pageNum", name = "pageNum", required = true) @RequestParam(value = "pageNum", required = true) int pageNum,
             @ApiParam(value = "pageSize", name = "pageSize", required = true) @RequestParam(value = "pageSize", required = true) int pageSize
     ) {
-        Pagination<Article> articleList = articleService.getArticleListByTitleName(title, pageNum, pageSize);
+        Pagination<Article> articleList = null;
+        if (value != null) {
+            if (flag == 1) {
+                articleList = articleService.getArticleListByTitleName(value, status, pageNum, pageSize);
+            }
+            if (flag == 2) {
+                articleList = articleService.getArticleListByUserId(Integer.parseInt(value), status, pageNum, pageSize);
+            }
+        } else {
+            articleList = articleService.getArticleList(pageNum, pageSize);
+        }
+
         return ApiResponse.successResponse(articleList);
     }
 
@@ -102,16 +187,31 @@ public class ArticleApi {
         return ApiResponse.successResponse(eff);
     }
 
-    @ApiOperation(value = "更新文章信息", notes = "更新文章信息")
+    @ApiOperation(value = "更新保存文章", notes = "更新保存文章")
     @RequestMapping(value = "/updateArticle", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> updateArticle(
+            @ApiParam(value = "token", name = "token", required = true) @RequestParam(value = "token", required = true) String token,
             @ApiParam(value = "文章id", name = "articleId", required = true) @RequestParam(value = "articleId", required = true) int articleId,
             @ApiParam(value = "文章标题", name = "title", required = true) @RequestParam(value = "title", required = true) String title,
             @ApiParam(value = "文章内容", name = "content", required = true) @RequestParam(value = "content", required = true) String content,
             @ApiParam(value = "文集id", name = "corpusId", required = true) @RequestParam(value = "corpusId", required = true) int corpusId
     ) {
-        int eff = articleService.updateArticle(articleId, title, content, corpusId);
-        return ApiResponse.successResponse(eff);
+        Map<String, Object> map = TokenUtils.validToken(token);
+        boolean flag = (boolean) map.get("success");
+        if (flag) {
+            int userId = Integer.parseInt((String) map.get("uid"));
+            String account = (String) map.get("account");
+            Article article = articleService.getArticleById(articleId);
+            if (article.getUserId() == userId) {
+                int eff = articleService.updateArticle(articleId, title, content, corpusId);
+                return ApiResponse.successResponse(eff);
+            } else {
+                return ApiResponse.errorResponse("无权修改此文章");
+            }
+        } else {
+            return ApiResponse.errorResponse("登陆过期，请重新登陆");
+        }
+
     }
 
 }

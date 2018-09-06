@@ -62,4 +62,21 @@ public interface UserService {
     Pagination<User> selectUserListByName(String name, int pageNum, int pageSize);
 
 
+    /**
+     * 获取我的推荐用户
+     * @param userId
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    Pagination<User> getMyRecommentUserList(int userId, int pageNum, int pageSize);
+
+    /**
+     * 根据账号搜索用户
+     * @param account
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    Pagination<User> getUserListByUserAccount(String account, int pageNum, int pageSize);
 }

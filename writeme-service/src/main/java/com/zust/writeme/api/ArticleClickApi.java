@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 @Api(value = "点赞管理", description = "点赞管理")
-@RequestMapping(value = "/article_click")
+@RequestMapping(value = "/articleClick")
 @Controller
 public class ArticleClickApi {
     private static final Logger log = LoggerFactory.getLogger(ArticleClickApi.class);
@@ -48,8 +48,12 @@ public class ArticleClickApi {
         if (flag) {
             int userId = Integer.parseInt((String) map.get("uid"));
             String account = (String) map.get("account");
-            int eff = articleClickService.like(articleId, userId);
-            return ApiResponse.successResponse(eff);
+            if (!articleClickService.isExist(articleId,userId)){
+                int eff = articleClickService.like(articleId, userId);
+                return ApiResponse.successResponse(eff);
+            }else {
+                return ApiResponse.errorResponse("你已点过赞了！");
+            }
         } else {
             return ApiResponse.errorResponse("登陆过期，请重新登陆");
         }
@@ -67,8 +71,12 @@ public class ArticleClickApi {
         if (flag) {
             int userId = Integer.parseInt((String) map.get("uid"));
             String account = (String) map.get("account");
-            int eff = articleClickService.nolike(articleId, userId);
-            return ApiResponse.successResponse(eff);
+            if (articleClickService.isExist(articleId,userId)){
+                int eff = articleClickService.nolike(articleId, userId);
+                return ApiResponse.successResponse(eff);
+            }else {
+                return ApiResponse.errorResponse("你已取消点赞！");
+            }
         } else {
             return ApiResponse.errorResponse("登陆过期，请重新登陆");
         }
