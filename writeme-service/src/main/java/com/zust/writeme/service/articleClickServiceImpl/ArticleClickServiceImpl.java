@@ -2,6 +2,7 @@ package com.zust.writeme.service.articleClickServiceImpl;
 
 import com.zust.writeme.dao.ArticleClickMapper;
 import com.zust.writeme.model.ArticleClick;
+import com.zust.writeme.model.Concern;
 import com.zust.writeme.service.articleClickService.ArticleClickService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,4 +56,9 @@ public class ArticleClickServiceImpl implements ArticleClickService {
         return count;
     }
 
+    @Override
+    public List getNoReadArticleClickList(int userId) {
+        List<ArticleClick> list = articleClickMapper.getNoReadConcernLists(userId);
+        return list;
+    }
 }

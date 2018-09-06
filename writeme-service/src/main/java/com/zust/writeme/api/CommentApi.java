@@ -3,6 +3,7 @@ package com.zust.writeme.api;
 import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.common.util.TokenUtils;
 import com.zust.writeme.model.Comment;
+import com.zust.writeme.service.articleService.ArticleService;
 import com.zust.writeme.service.commentService.CommentService;
 import com.zust.writeme.service.userService.UserService;
 import io.swagger.annotations.Api;
@@ -29,6 +30,8 @@ public class CommentApi {
     private CommentService commentService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ArticleService articleService;
 
     @ApiOperation(value = "获取文章所有评论详细信息")
     @RequestMapping(value = "/getArticleComment", method = RequestMethod.POST)
@@ -90,4 +93,19 @@ public class CommentApi {
         }
 
     }
+
+    @ApiOperation(value = "未读评论列表", notes = "查看未读评论")
+    @RequestMapping(value = "/getCommentList", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> getCommentList(
+            @ApiParam(value = "userId", name = "userId", required = true) @RequestParam(value = "userId", required = true) int userId,
+            @ApiParam(value = "pageNum", name = "pageNum", required = true) @RequestParam(value = "pageNum", required = true) int pageNum,
+            @ApiParam(value = "pageSize", name = "pageSize", required = true) @RequestParam(value = "pageSize", required = true) int pageSize
+    ) {
+           Pagination pagination = commentService.getNoReadCommentList(userId,pageNum,pageSize);
+
+            return ApiResponse.successResponse(pagination);
+
+    }
+
+
 }

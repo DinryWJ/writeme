@@ -3,6 +3,8 @@ package com.zust.writeme.service.concernService;
 import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.model.Concern;
 
+import java.util.List;
+
 public interface ConcernService {
     int addConcern(int userId, int concernedUserId);
 
@@ -17,4 +19,6 @@ public interface ConcernService {
     Pagination<Concern> getUserConcernList(int userId, int pageNum, int pageSize);
 
     int getUserConcernCount(int userId);
+
+    Pagination getNoReadConcernList(int userId, int pageNum, int pageSize);
 }

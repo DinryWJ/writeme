@@ -4,19 +4,22 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.dao.ConcernMapper;
+import com.zust.writeme.dao.UserMapper;
 import com.zust.writeme.model.Concern;
+import com.zust.writeme.model.User;
 import com.zust.writeme.service.concernService.ConcernService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service("concernService")
 public class ConcernServiceImpl implements ConcernService {
     @Autowired
     private ConcernMapper concernMapper;
+    @Autowired
+    private UserMapper userMapper;
 
 
     @Override
@@ -88,5 +91,50 @@ public class ConcernServiceImpl implements ConcernService {
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userId", userId);
         return concernMapper.selectCountByExample(example);
+    }
+
+    @Override
+    public Pagination getNoReadConcernList(int concernedId, int pageNum, int pageSize) {
+        Pagination<Map<String,Object>> pagination = new Pagination<>();
+        List<Concern> list=concernMapper.getNoReadConcernList(concernedId);
+
+        PageHelper.startPage(pageNum, pageSize);
+        List<Map<String, Object>> eff = new ArrayList<>();
+
+        List<Concern> concerns = concernMapper.getNoReadConcernList(concernedId);
+        List ismutual = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < concerns.size(); i++) {
+            users.add(userMapper.selectByPrimaryKey(concerns.get(i).getUserId()));
+            //concernedId 登录用户id
+            //concerns.get(i).getUserId() 主动关注者id
+            System.out.println("-----------------------------------"+concerns.get(i).getUserId().toString()+"========"+concernedId);
+            int isconcern=getValidConcern(concernedId,concerns.get(i).getUserId());
+            ismutual.add(isconcern);
+        }
+        for (int i = 0; i < concerns.size(); i++) {
+            Map map = new HashMap(5);
+            map.put("concernId",concerns.get(i).getConcernId());
+            map.put("userId",users.get(i).getUserId());
+            map.put("img", users.get(i).getUserImage());
+            map.put("name", users.get(i).getUserName());
+            map.put("time", concerns.get(i).getCreateTime());
+
+            if (ismutual.get(i).equals(1))
+            {
+                map.put("isConcern",1);
+            }
+            else{
+                map.put("isConcern",0);
+            }
+            eff.add(map);
+        }
+
+        pagination.setList(eff);
+        pagination.setPageNum((long) pageNum);
+        pagination.setPageSize((long) pageSize);
+
+        pagination.setTotal((long)list.size());
+        return pagination;
     }
 }

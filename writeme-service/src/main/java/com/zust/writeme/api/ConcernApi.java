@@ -3,8 +3,10 @@ package com.zust.writeme.api;
 import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.common.util.TokenUtils;
 import com.zust.writeme.model.Concern;
+import com.zust.writeme.model.User;
 import com.zust.writeme.service.articleService.ArticleService;
 import com.zust.writeme.service.concernService.ConcernService;
+import com.zust.writeme.service.userService.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -17,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Api(value = "关注管理", description = "关注管理")
@@ -30,6 +35,8 @@ public class ConcernApi {
     private ConcernService concernService;
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private UserService userService;
 
     @ApiOperation(value = "新增关注", notes = "新增关注")
     @RequestMapping(value = "/addConcern", method = RequestMethod.POST)
@@ -71,7 +78,7 @@ public class ConcernApi {
         }
     }
 
-    @ApiOperation(value = "是否关注状态", notes = "取消关注")
+    @ApiOperation(value = "是否关注状态", notes = "是否关注状态")
     @RequestMapping(value = "/getConcernStatus", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> getConcernStatus(
             @ApiParam(value = "token", name = "token", required = true) @RequestParam(value = "token", required = true) String token,
@@ -136,4 +143,17 @@ public class ConcernApi {
         int count = concernService.getUserConcernCount(userId);
         return ApiResponse.successResponse(count);
     }
+
+    @ApiOperation(value = "获取未读关注", notes = "获取未读关注")
+    @RequestMapping(value = "/getNoReadConcernList", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> getNoReadConcernList(
+            @ApiParam(value = "userId", name = "userId", required = true) @RequestParam(value = "userId", required = true) int userId,
+            @ApiParam(value = "pageNum", name = "pageNum", required = true) @RequestParam(value = "pageNum", required = true) int pageNum,
+            @ApiParam(value = "pageSize", name = "pageSize", required = true) @RequestParam(value = "pageSize", required = true) int pageSize
+    ) {
+        Pagination pagination = concernService.getNoReadConcernList(userId,pageNum,pageSize);
+
+        return ApiResponse.successResponse(pagination);
+    }
 }
+

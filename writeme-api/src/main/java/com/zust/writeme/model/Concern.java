@@ -28,6 +28,9 @@ public class Concern {
     @Column(name = "concerned_id")
     private Integer concernedId;
 
+    @Column(name = "is_read")
+    private String isRead;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "create_time")
@@ -104,5 +107,13 @@ public class Concern {
 
     public void setUserConcernedCount(int userConcernedCount) {
         this.userConcernedCount = userConcernedCount;
+    }
+
+    public String getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(String isRead) {
+        this.isRead = isRead;
     }
 }

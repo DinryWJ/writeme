@@ -3,6 +3,8 @@ package com.zust.writeme.service.commentService;
 import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.model.Comment;
 
+import java.util.List;
+
 public interface CommentService {
     Pagination<Comment> getArticleComment(int articleId, int pageNum, int pageSize);
 
@@ -13,5 +15,7 @@ public interface CommentService {
     int delete(int CommentId);
 
     Comment selectCommentById(int CommentId);
+    //List getNoReadCommentList(int userId);
 
+    Pagination getNoReadCommentList(int userId, int pageNum, int pageSize);
 }

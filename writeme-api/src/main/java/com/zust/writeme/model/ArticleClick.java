@@ -1,6 +1,10 @@
 package com.zust.writeme.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "article_click")
 public class ArticleClick {
@@ -22,6 +26,17 @@ public class ArticleClick {
      */
     @Column(name = "user_id")
     private Integer userId;
+
+    @Column(name = "is_read")
+    private String isRead;
+
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @Column(name = "create_time")
+    private Date createTime;
+
+    @Transient
+    private Article article;
 
     /**
      * 获取点赞表id
@@ -75,5 +90,29 @@ public class ArticleClick {
      */
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(String isRead) {
+        this.isRead = isRead;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
     }
 }
