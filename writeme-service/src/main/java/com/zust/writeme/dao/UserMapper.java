@@ -10,9 +10,6 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 public interface UserMapper extends MyMapper<User> {
-<<<<<<< HEAD
-
-=======
     @Select("SELECT s.fromUserId, u.* " +
             "FROM " +
             "( SELECT c2.user_id AS fromUserId, c2.concerned_id AS toUserId " +
@@ -35,5 +32,4 @@ public interface UserMapper extends MyMapper<User> {
             @Result(property = "fromUserId",column = "fromUserId"),
     })
     List<User> getMyRecommentUserList(@Param("userId") int userId);
->>>>>>> 80797ee3b7309e797b7650d85b5cea3c934c8664
 }

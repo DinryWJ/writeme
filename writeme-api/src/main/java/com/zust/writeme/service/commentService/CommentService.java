@@ -15,12 +15,9 @@ public interface CommentService {
     int delete(int CommentId);
 
     Comment selectCommentById(int CommentId);
-    //List getNoReadCommentList(int userId);
 
-<<<<<<< HEAD
     Pagination getNoReadCommentList(int userId, int pageNum, int pageSize);
-=======
+    
     int getCommentNumByArticleId(int articleId);
 
->>>>>>> 80797ee3b7309e797b7650d85b5cea3c934c8664
 }
