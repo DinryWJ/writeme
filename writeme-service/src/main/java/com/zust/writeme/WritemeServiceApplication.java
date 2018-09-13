@@ -12,7 +12,6 @@ import tk.mybatis.spring.annotation.MapperScan;
 @SpringBootApplication
 @EnableSwagger2
 @EnableEurekaClient
-@MapperScan(basePackages="com.zust.writeme.dao")
 public class WritemeServiceApplication {
 
     public static void main(String[] args) {

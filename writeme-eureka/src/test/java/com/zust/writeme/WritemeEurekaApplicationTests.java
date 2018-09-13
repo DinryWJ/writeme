@@ -1,4 +1,4 @@
-package com.zust.writemeeureka;
+package com.zust.writeme;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

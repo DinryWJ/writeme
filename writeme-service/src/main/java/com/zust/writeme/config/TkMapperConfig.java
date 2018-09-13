@@ -14,7 +14,7 @@ public class TkMapperConfig {
     @Bean
     public MapperScannerConfigurer mapperScannerConfigurer(){
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-        mapperScannerConfigurer.setBasePackage("com.xxxx.dao");
+        mapperScannerConfigurer.setBasePackage("com.zust.writeme.dao");
         Properties propertiesMapper = new Properties();
         //通用mapper位置，不要和其他mapper、dao放在同一个目录
         propertiesMapper.setProperty("mappers", "com.zust.writeme.config.MyMapper");
