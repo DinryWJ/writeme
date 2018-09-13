@@ -62,7 +62,7 @@ public class TokenUtils {
                 Map<String, Object> validMap = TokenUtils.valid(token);
                 int i = (int) validMap.get("Result");
                 if (i == 0) {
-                    System.out.println("token解析成功");
+                    //System.out.println("token解析成功");
                     returnMap.put("success",true);
                     JSONObject jsonObject = (JSONObject) validMap.get("data");
                     returnMap.put("uid", jsonObject.get("uid"));

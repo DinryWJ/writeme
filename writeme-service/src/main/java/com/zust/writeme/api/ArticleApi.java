@@ -178,13 +178,28 @@ public class ArticleApi {
         return ApiResponse.successResponse(articleList);
     }
 
-    @ApiOperation(value = "通过文章id删除文章", notes = "通过文章id删除文章")
-    @RequestMapping(value = "/deleteArticleById", method = RequestMethod.POST)
-    public ResponseEntity<ApiResponse> deleteArticleById(
+    @ApiOperation(value = "删除文章", notes = "删除文章")
+    @RequestMapping(value = "/deleteArticle", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> deleteArticle(
+            @ApiParam(value = "token", name = "token", required = true) @RequestParam(value = "token", required = true) String token,
             @ApiParam(value = "文章id", name = "articleId", required = true) @RequestParam(value = "articleId", required = true) int articleId
     ) {
-        int eff = articleService.deleteArticleById(articleId);
-        return ApiResponse.successResponse(eff);
+        Map<String, Object> map = TokenUtils.validToken(token);
+        boolean flag = (boolean) map.get("success");
+        if (flag) {
+            int userId = Integer.parseInt((String) map.get("uid"));
+            String account = (String) map.get("account");
+            Article article = articleService.getArticleById(articleId);
+            if (article.getUserId() == userId) {
+                int eff = articleService.deleteArticleById(articleId);
+                return ApiResponse.successResponse(eff);
+            } else {
+                return ApiResponse.errorResponse("你无权删除此文章!");
+            }
+
+        } else {
+            return ApiResponse.errorResponse("登陆过期，请重新登陆");
+        }
     }
 
     @ApiOperation(value = "更新保存文章", notes = "更新保存文章")

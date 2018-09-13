@@ -62,7 +62,8 @@ public class ArticleServiceImpl implements ArticleService {
     public int deleteArticleById(int articleId) {
         Article article = new Article();
         article.setArticleId(articleId);
-        return articleMapper.deleteByPrimaryKey(article);
+        article.setStatus(9);
+        return articleMapper.updateByPrimaryKeySelective(article);
     }
 
     @Override
@@ -114,5 +115,13 @@ public class ArticleServiceImpl implements ArticleService {
         pagination.setPageSize((long) pageSize);
         pagination.setTotal(((Page) articleList).getTotal());
         return pagination;
+    }
+
+    @Override
+    public int articleManage(int articleId, int status) {
+        Article article = new Article();
+        article.setArticleId(articleId);
+        article.setStatus(status);
+        return articleMapper.updateByPrimaryKeySelective(article);
     }
 }
