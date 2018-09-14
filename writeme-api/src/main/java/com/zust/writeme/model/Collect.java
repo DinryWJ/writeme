@@ -21,7 +21,11 @@ public class Collect {
      */
     @Column(name = "user_id")
     private Integer userId;
-
+    /**
+     * 值val
+     */
+    @Column(name = "val")
+    private String val;
     /**
      * 获取收集表id
      *
@@ -74,5 +78,13 @@ public class Collect {
      */
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getVal() {
+        return val;
+    }
+
+    public void setVal(String val) {
+        this.val = val;
     }
 }

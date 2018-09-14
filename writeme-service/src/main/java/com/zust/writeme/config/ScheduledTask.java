@@ -1,0 +1,89 @@
+package com.zust.writeme.config;
+
+import com.zust.writeme.dao.CollectMapper;
+import com.zust.writeme.model.Collect;
+import org.apache.mahout.cf.taste.impl.common.LongPrimitiveIterator;
+import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
+import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
+import org.apache.mahout.cf.taste.impl.similarity.EuclideanDistanceSimilarity;
+import org.apache.mahout.cf.taste.model.DataModel;
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
+import org.apache.mahout.cf.taste.recommender.Recommender;
+import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * @auther 叶连松
+ * @date 2018/9/14 12:38
+ */
+@Component
+public class ScheduledTask {
+    private static final Logger logger = LoggerFactory.getLogger(ScheduledTask.class);
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    final static int RECOMMENDER_NUM = 3;//推荐物品的最大个数
+    @Autowired
+    private CollectMapper collectMapper;
+
+    /**
+     * 每隔5秒执行, 单位：ms。
+     */
+    @Scheduled(fixedRate = 5000)
+    public void reportCurrentTime() {
+
+        System.out.println("当前时间: " + dateFormat.format(new Date()));
+        exportTxt();
+        logger.info("打印当前时间: {}.", dateFormat.format(new Date()));
+    }
+    //推荐算法
+    public void exportTxt() {
+        String file = "G:\\shiyan\\writeme\\writeme-service\\datafile\\item.csv";
+        try {
+            DataModel model = new FileDataModel(new File(file));
+            ItemSimilarity item = new EuclideanDistanceSimilarity(model);
+            Recommender r = new GenericItemBasedRecommender(model, item);
+            LongPrimitiveIterator iter = model.getUserIDs();
+            while (iter.hasNext()) {
+                long uid = iter.nextLong();
+                List<RecommendedItem> list1 = r.recommend(uid, 5);
+                System.out.printf("uid:%s", uid);
+                for (RecommendedItem ritem : list1) {
+                    System.out.printf("(%s,%f)", ritem.getItemID(), ritem.getValue());
+                }
+                System.out.println();
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Scheduled(cron = "0 0 1 * * ?")    //每天凌晨1点执行
+    public void testMyBatis() {
+        System.out.println("每天凌晨1点开始执行");
+
+        try {
+            List<Collect> list = collectMapper.selectAll();
+
+            //定时任务可以做耗时操作，包括做生成数据库报表、文件IO等等需要定时执行的逻辑
+            if (list != null) {
+                //导出csv文件
+                File ofile = new File("G:\\shiyan\\writeme\\writeme-service\\datafile\\test.csv");
+                CsvUtils.exportCsv(ofile, list);
+
+            } else {
+                System.out.println("什么事都不用做，等待下次再说吧");
+            }
+        } catch (Exception ex) {
+
+        }
+    }
+
+}
