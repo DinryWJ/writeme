@@ -6,6 +6,7 @@ import org.apache.mahout.cf.taste.impl.common.LongPrimitiveIterator;
 import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
 import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.EuclideanDistanceSimilarity;
+import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.recommender.Recommender;
@@ -29,43 +30,20 @@ import java.util.List;
 public class ScheduledTask {
     private static final Logger logger = LoggerFactory.getLogger(ScheduledTask.class);
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-    final static int RECOMMENDER_NUM = 3;//推荐物品的最大个数
     @Autowired
     private CollectMapper collectMapper;
 
     /**
      * 每隔5秒执行, 单位：ms。
      */
-    @Scheduled(fixedRate = 5000)
-    public void reportCurrentTime() {
-
-        System.out.println("当前时间: " + dateFormat.format(new Date()));
-        exportTxt();
-        logger.info("打印当前时间: {}.", dateFormat.format(new Date()));
-    }
-    //推荐算法
-    public void exportTxt() {
-        String file = "G:\\shiyan\\writeme\\writeme-service\\datafile\\item.csv";
-        try {
-            DataModel model = new FileDataModel(new File(file));
-            ItemSimilarity item = new EuclideanDistanceSimilarity(model);
-            Recommender r = new GenericItemBasedRecommender(model, item);
-            LongPrimitiveIterator iter = model.getUserIDs();
-            while (iter.hasNext()) {
-                long uid = iter.nextLong();
-                List<RecommendedItem> list1 = r.recommend(uid, 5);
-                System.out.printf("uid:%s", uid);
-                for (RecommendedItem ritem : list1) {
-                    System.out.printf("(%s,%f)", ritem.getItemID(), ritem.getValue());
-                }
-                System.out.println();
-            }
-        } catch (Exception e) {
-
-        }
-    }
-
-    @Scheduled(cron = "0 0 1 * * ?")    //每天凌晨1点执行
+ //   @Scheduled(fixedRate = 5000)
+//    public void reportCurrentTime() {
+//
+//        System.out.println("当前时间: " + dateFormat.format(new Date()));
+//        logger.info("打印当前时间: {}.", dateFormat.format(new Date()));
+//    }
+    //每天凌晨1点执行
+    @Scheduled(cron = "0 0 1 * * ?")
     public void testMyBatis() {
         System.out.println("每天凌晨1点开始执行");
 
