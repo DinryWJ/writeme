@@ -242,25 +242,14 @@ public class ArticleApi {
     }
 
     @ApiOperation(value = "获取推荐文章", notes = "个性推荐")
-    @RequestMapping(value = "/getLikeArticle", method = RequestMethod.POST)
+    @RequestMapping(value = "/getMyRecommentArticleList", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> getLikeArticle(
-            @ApiParam(value = "用户id", name = "userId", required = true) @RequestParam(value = "userId", required = true) int userId
+            @ApiParam(value = "userId", name = "userId", required = true) @RequestParam(value = "userId", required = true) int userId,
+            @ApiParam(value = "pageNum", name = "pageNum", required = true) @RequestParam(value = "pageNum", required = true) int pageNum,
+            @ApiParam(value = "pageSize", name = "pageSize", required = true) @RequestParam(value = "pageSize", required = true) int pageSize
     ) {
-        Pagination<Article> articleList = null;
-        List<Integer> l=new ArrayList<Integer>();
-        CF c = new CF();
+        Pagination<Article> pagination = articleService.getArticleListByCF(userId,pageNum,pageSize);
 
-        try {
-            l=c.ItemCF(userId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if(l!=null) {
-            for (int ritem : l){
-               // boolean eff = articleService.getArticleListByUserId(l.get(0));
-            }
-            return ApiResponse.successResponse(true);
-        }
-         return ApiResponse.successResponse(false);
+         return ApiResponse.successResponse(pagination);
     }
 }

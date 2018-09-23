@@ -19,7 +19,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,7 +52,7 @@ public class ScheduledTask {
             //定时任务可以做耗时操作，包括做生成数据库报表、文件IO等等需要定时执行的逻辑
             if (list != null) {
                 //导出csv文件
-                File ofile = new File("G:\\shiyan\\writeme\\writeme-service\\datafile\\test.csv");
+                File ofile = new File("G:\\shiyan\\writeme\\writeme-service\\datafile\\collect.csv");
                 CsvUtils.exportCsv(ofile, list);
 
             } else {

@@ -3,20 +3,28 @@ package com.zust.writeme.service.articleServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zust.writeme.common.util.Pagination;
+import com.zust.writeme.config.CF;
 import com.zust.writeme.dao.ArticleMapper;
+import com.zust.writeme.dao.UserMapper;
 import com.zust.writeme.model.Article;
 import com.zust.writeme.service.articleService.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service("articleService")
 public class ArticleServiceImpl implements ArticleService {
+    //推荐最小文章数
+    final static int MIN_ARTICLE_NUM=6;
     @Autowired
     private ArticleMapper articleMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
 
     @Override
@@ -123,5 +131,41 @@ public class ArticleServiceImpl implements ArticleService {
         article.setArticleId(articleId);
         article.setStatus(status);
         return articleMapper.updateByPrimaryKeySelective(article);
+    }
+   @Override
+    public Pagination<Article> getArticleListByCF(int userId, int pageNum, int pageSize) {
+        Pagination<Article> pagination = new Pagination<>();
+
+        PageHelper.startPage(pageNum, pageSize);
+        List<Integer> l=new ArrayList<Integer>();
+        CF c = new CF();
+        try {
+            l=c.ItemCF(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<Article> articleList = new ArrayList<>();
+        int count=0;
+            for (int i = 0; i < l.size(); i++) {
+                Article t = articleMapper.selectByPrimaryKey(l.get(i));
+                t.setAuthor(userMapper.selectByPrimaryKey(t.getUserId()));
+                articleList.add(t);
+                count=l.size();
+            }
+       if(count<MIN_ARTICLE_NUM&&pageNum==1) {
+                for (int i=0;i<MIN_ARTICLE_NUM-count;i++) {
+                    Article t = articleMapper.selectByPrimaryKey(11+i);
+                    t.setAuthor(userMapper.selectByPrimaryKey(t.getUserId()));
+                    articleList.add(t);
+                }
+       }
+        pagination.setList(articleList);
+        pagination.setPageNum((long) pageNum);
+        pagination.setPageSize((long) pageSize);
+        if (count<MIN_ARTICLE_NUM){
+            count= MIN_ARTICLE_NUM;
+        }
+        pagination.setTotal((long)count);
+        return pagination;
     }
 }

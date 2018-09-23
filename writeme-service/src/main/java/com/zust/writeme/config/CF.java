@@ -23,7 +23,7 @@ public class CF {
     //文章推荐
     public List<Integer> ItemCF(long uid) throws Exception{
         //数据存放地址
-        String file = "G:\\shiyan\\writeme\\writeme-service\\datafile\\test.csv";
+        String file = "G:\\shiyan\\writeme\\writeme-service\\datafile\\collect.csv";
         //构造数据模型，File-based
         DataModel model = new FileDataModel(new File(file));
         //计算内容相似度
@@ -36,11 +36,9 @@ public class CF {
        // System.out.printf("uid:%s", uid);
         for (RecommendedItem ritem : list) {
             l.add((int)ritem.getItemID());
-            //System.out.printf("(%s,%f)", ritem.getItemID(), ritem.getValue());
+           // System.out.printf("(%s,%f)", ritem.getItemID(), ritem.getValue());
             }
            // System.out.println();
         return l;
     }
-
-
 }
