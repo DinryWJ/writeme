@@ -27,11 +27,44 @@ public interface MessageService {
     Message getMessageById(int messageId);
 
     /**
-     * 获取用户所有信息
+     * 获取用户所有消息
      *
      * @param toUserId
      * @param status
      * @return
      */
     Pagination<Message> getUserMessageList(int toUserId, String status);
+
+    /**
+     * 设置已读
+     *
+     * @param messageId
+     * @return
+     */
+    int haveRead(int messageId, int userId);
+
+    /**
+     * 设置已读（批量）
+     *
+     * @param messageIds
+     * @return
+     */
+    int haveReadBatch(int[] messageIds, int userId);
+
+    /**
+     * 删除消息
+     *
+     * @param messageId
+     * @return
+     */
+    int deleteMessageById(int messageId, int userId);
+
+    /**
+     * 获取聊天记录
+     *
+     * @param userId
+     * @param guestId
+     * @return
+     */
+    Pagination<Message> getMessageRecord(int userId, int guestId);
 }
