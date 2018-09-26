@@ -15,4 +15,5 @@ public interface ArticleClickService {
     int getStarsCount(int articleId);
 
     List<ArticleClick> getNoReadArticleClickList(int userId);
+
 }

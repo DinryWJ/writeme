@@ -1,5 +1,6 @@
 package com.zust.writeme.api;
 
+import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.common.util.TokenUtils;
 import com.zust.writeme.model.Article;
 import com.zust.writeme.model.ArticleClick;

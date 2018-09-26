@@ -55,11 +55,17 @@ public class ArticleServiceImpl implements ArticleService {
         Example example = new Example(Article.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andLike("title", "%" + title + "%");
+
         criteria.andEqualTo("status", status);
         PageHelper.startPage(pageNum, pageSize);
         List<Article> articleList = articleMapper.selectByExample(example);
-
-        pagination.setList(articleList);
+        List<Article> articleList2=new ArrayList<>();
+        for (int i = 0; i < articleList.size(); i++) {
+            Article t = articleMapper.selectByPrimaryKey(articleList.get(i).getArticleId());
+            t.setAuthor(userMapper.selectByPrimaryKey(t.getUserId()));
+            articleList2.add(t);
+        }
+        pagination.setList(articleList2);
         pagination.setPageNum((long) pageNum);
         pagination.setPageSize((long) pageSize);
         pagination.setTotal(((Page) articleList).getTotal());

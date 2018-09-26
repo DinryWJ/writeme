@@ -22,4 +22,5 @@ public interface ArticleClickMapper extends MyMapper<ArticleClick> {
     })
     List<ArticleClick> getNoReadConcernLists(@Param("userId") int userId);
 
+
 }
