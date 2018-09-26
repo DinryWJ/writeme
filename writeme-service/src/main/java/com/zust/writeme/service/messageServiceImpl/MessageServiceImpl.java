@@ -1,7 +1,5 @@
 package com.zust.writeme.service.messageServiceImpl;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.dao.MessageMapper;
 import com.zust.writeme.model.Message;
@@ -44,12 +42,12 @@ public class MessageServiceImpl implements MessageService {
     public Pagination<Message> getUserMessageList(int toUserId, String status) {
         Pagination<Message> pagination = new Pagination<>();
         List<Integer> integers = new ArrayList<>();
-        List<Message> list = messageMapper.getFromUserMessageList(toUserId,status);
-        List<Message> list2 = messageMapper.getToUserMessageList(toUserId,status);
+        List<Message> list = messageMapper.getFromUserMessageList(toUserId, status);
+        List<Message> list2 = messageMapper.getToUserMessageList(toUserId, status);
         for (Message m : list) {
             integers.add(m.getToUserId());
         }
-        list2 = list2.stream().filter(t-> !integers.contains(t.getFromUserId())).collect(Collectors.toList());
+        list2 = list2.stream().filter(t -> !integers.contains(t.getFromUserId())).collect(Collectors.toList());
         list.addAll(list2);
         pagination.setList(list);
         pagination.setTotal((long) list.size());
@@ -95,6 +93,15 @@ public class MessageServiceImpl implements MessageService {
 
         pagination.setList(messageList);
         return pagination;
+    }
+
+    @Override
+    public int getNewMessageNumber(int userId) {
+        Example example = new Example(Message.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("toUserId", userId);
+        criteria.andEqualTo("status", "0");
+        return messageMapper.selectCountByExample(example);
     }
 
 

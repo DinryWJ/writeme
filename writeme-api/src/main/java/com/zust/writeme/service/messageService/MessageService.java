@@ -67,4 +67,12 @@ public interface MessageService {
      * @return
      */
     Pagination<Message> getMessageRecord(int userId, int guestId);
+
+    /**
+     * 获取新消息数
+     *
+     * @param userId
+     * @return
+     */
+    int getNewMessageNumber(int userId);
 }

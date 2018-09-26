@@ -12,7 +12,7 @@ import java.util.List;
  * @Date: 2018/9/20 9:57
  */
 public interface MessageMapper extends MyMapper<Message> {
-    @Select("SELECT * FROM message AS m WHERE m.`status` = '0' AND ( to_user_id = 9 AND from_user_id = 17) OR ( to_user_id = 17 AND from_user_id = 9) ORDER BY create_time ASC")
+    @Select("SELECT * FROM message AS m WHERE m.`status` = '0' AND ( to_user_id = #{userId} AND from_user_id = #{guestId}) OR ( to_user_id = #{guestId} AND from_user_id = #{userId}) ORDER BY create_time ASC")
     @Results({
             @Result(property = "id",column = "id"),
             @Result(property = "fromUserId",column = "from_user_id"),
@@ -23,7 +23,7 @@ public interface MessageMapper extends MyMapper<Message> {
             @Result(property = "user", column = "from_user_id", javaType = User.class,
                     one = @One(select = "com.zust.writeme.dao.UserMapper.selectByPrimaryKey"))
     })
-    List<Message> getMessageRecord(int userId, int guestId);
+    List<Message> getMessageRecord(@Param("userId") int userId, @Param("guestId") int guestId);
 
     @Select("SELECT * FROM ( SELECT * FROM message AS m WHERE m.`status` = #{status} AND from_user_id = #{fromUserId} ORDER BY create_time DESC) s GROUP BY s.to_user_id")
     @Results({

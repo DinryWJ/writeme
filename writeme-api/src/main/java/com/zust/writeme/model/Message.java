@@ -26,7 +26,7 @@ public class Message {
     private String message;
 
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern="HH:mm:ss",timezone = "GMT+8")
     @Column(name = "create_time")
     private Date createTime;
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -21,7 +22,7 @@ public class ArticleClickServiceImpl implements ArticleClickService {
         ArticleClick articleClick = new ArticleClick();
         articleClick.setArticleId(articleId);
         articleClick.setUserId(userId);
-
+        articleClick.setCreateTime(new Date());
         return articleClickMapper.insertSelective(articleClick);
     }
 

@@ -144,4 +144,21 @@ public class MessageApi {
             return ApiResponse.errorResponse("登陆过期，请重新登陆");
         }
     }
+
+    @ApiOperation(value = "获取新消息数", notes = "获取新消息数")
+    @RequestMapping(value = "/getNewMessageNumber", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> getNewMessageNumber(
+            @ApiParam(value = "token", name = "token", required = true) @RequestParam(value = "token", required = true) String token
+    ) {
+        Map<String, Object> map = TokenUtils.validToken(token);
+        boolean flag = (boolean) map.get("success");
+        if (flag) {
+            int userId = Integer.parseInt((String) map.get("uid"));
+            String account = (String) map.get("account");
+            int count = messageService.getNewMessageNumber(userId);
+            return ApiResponse.successResponse(count);
+        } else {
+            return ApiResponse.errorResponse("登陆过期，请重新登陆");
+        }
+    }
 }

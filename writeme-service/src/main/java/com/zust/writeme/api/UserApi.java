@@ -82,7 +82,21 @@ public class UserApi {
             return ApiResponse.errorResponse("登陆过期，请重新登陆");
         }
     }
-
+    @ApiOperation(value = "通过token搜索用户信息")
+    @RequestMapping(value = "/getUserByToken", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> getUserByToken(
+            @ApiParam(name = "token", value = "token", required = true) @RequestParam(value = "token", required = true) String token
+    ) {
+        Map<String, Object> map = TokenUtils.validToken(token);
+        boolean flag = (boolean) map.get("success");
+        if (flag) {
+            int userId = Integer.parseInt((String) map.get("uid"));
+            String account = (String) map.get("account");
+            return ApiResponse.successResponse(userService.getUserById(userId));
+        } else {
+            return ApiResponse.errorResponse("登陆过期，请重新登陆");
+        }
+    }
 //    @ApiOperation(value = "陈列所有用户")
 //    @RequestMapping(value = "/listUser", method = RequestMethod.POST)
 //    public ResponseEntity<ApiResponse> selectAllUser(
