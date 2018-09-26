@@ -143,4 +143,24 @@ public class ArticleClickApi {
             return ApiResponse.errorResponse("登陆过期，请重新登陆");
         }
     }
+
+
+    @ApiOperation(value = "获取点赞的文章", notes = "获取点赞的文章")
+    @RequestMapping(value = "/getFavourArticleList", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> getFavourArticleList(
+            @ApiParam(value = "token", name = "token", required = true) @RequestParam(value = "token", required = true) String token,
+            @ApiParam(value = "pageNum", name = "pageNum", required = true) @RequestParam(value = "pageNum", required = true) int pageNum,
+            @ApiParam(value = "pageSize", name = "pageSize", required = true) @RequestParam(value = "pageSize", required = true) int pageSize
+    ) {
+        Map<String, Object> map = TokenUtils.validToken(token);
+        boolean flag = (boolean) map.get("success");
+        if (flag) {
+            int userId = Integer.parseInt((String) map.get("uid"));
+            String account = (String) map.get("account");
+            Pagination<ArticleClick> pagination = articleClickService.getFavourArticleIdList(userId, pageNum, pageSize);
+            return ApiResponse.successResponse(pagination);
+        } else {
+            return ApiResponse.errorResponse("登陆过期，请重新登陆");
+        }
+    }
 }

@@ -59,7 +59,7 @@ public class MessageApi {
     @RequestMapping(value = "/getUserMessageList", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> getUserMessageList(
             @ApiParam(value = "token", name = "token", required = true) @RequestParam(value = "token", required = true) String token,
-            @ApiParam(value = "status", name = "status", required = true) @RequestParam(value = "status", required = true) String status
+            @ApiParam(value = "status", name = "status", required = true) @RequestParam(value = "status", required = true) int status
     ) {
         Map<String, Object> map = TokenUtils.validToken(token);
         boolean flag = (boolean) map.get("success");

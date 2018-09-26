@@ -29,7 +29,7 @@ public class MessageServiceImpl implements MessageService {
         model.setToUserId(toUserId);
         model.setCreateTime(new Date());
         model.setMessage(message);
-        model.setStatus("0");
+        model.setStatus(0);
         return messageMapper.insert(model);
     }
 
@@ -39,7 +39,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Pagination<Message> getUserMessageList(int toUserId, String status) {
+    public Pagination<Message> getUserMessageList(int toUserId, int status) {
         Pagination<Message> pagination = new Pagination<>();
         List<Integer> integers = new ArrayList<>();
         List<Message> list = messageMapper.getFromUserMessageList(toUserId, status);
@@ -60,7 +60,7 @@ public class MessageServiceImpl implements MessageService {
         Message message = new Message();
         message.setId(messageId);
         message.setToUserId(userId);
-        message.setStatus("1");
+        message.setStatus(1);
         return messageMapper.updateByPrimaryKeySelective(message);
     }
 
@@ -71,7 +71,7 @@ public class MessageServiceImpl implements MessageService {
             Message message = new Message();
             message.setId(messageIds[i]);
             message.setToUserId(userId);
-            message.setStatus("1");
+            message.setStatus(1);
             eff += messageMapper.updateByPrimaryKeySelective(message);
         }
         return eff;
@@ -82,7 +82,7 @@ public class MessageServiceImpl implements MessageService {
         Message message = new Message();
         message.setId(messageId);
         message.setToUserId(userId);
-        message.setStatus("2");
+        message.setStatus(2);
         return messageMapper.updateByPrimaryKeySelective(message);
     }
 

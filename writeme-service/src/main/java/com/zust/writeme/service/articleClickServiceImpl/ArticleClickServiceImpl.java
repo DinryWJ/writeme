@@ -1,8 +1,10 @@
 package com.zust.writeme.service.articleClickServiceImpl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.dao.ArticleClickMapper;
 import com.zust.writeme.model.ArticleClick;
-import com.zust.writeme.model.Concern;
 import com.zust.writeme.service.articleClickService.ArticleClickService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,5 +63,17 @@ public class ArticleClickServiceImpl implements ArticleClickService {
     public List getNoReadArticleClickList(int userId) {
         List<ArticleClick> list = articleClickMapper.getNoReadConcernLists(userId);
         return list;
+    }
+
+    @Override
+    public Pagination<ArticleClick> getFavourArticleIdList(int userId, int pageNum, int pageSize) {
+        Pagination<ArticleClick> pagination = new Pagination<>();
+        PageHelper.startPage(pageNum, pageSize);
+        List<ArticleClick> list = articleClickMapper.getFavourArticleIdList(userId);
+        pagination.setList(list);
+        pagination.setPageNum((long) pageNum);
+        pagination.setPageSize((long) pageSize);
+        pagination.setTotal(((Page) list).getTotal());
+        return pagination;
     }
 }

@@ -1,6 +1,7 @@
 package com.zust.writeme.service.articleClickService;
 
 
+import com.zust.writeme.common.util.Pagination;
 import com.zust.writeme.model.ArticleClick;
 
 import java.util.List;
@@ -16,4 +17,5 @@ public interface ArticleClickService {
 
     List<ArticleClick> getNoReadArticleClickList(int userId);
 
+    Pagination<ArticleClick> getFavourArticleIdList(int userId, int pageNum, int pageSize);
 }

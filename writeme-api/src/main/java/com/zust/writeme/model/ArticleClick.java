@@ -38,6 +38,8 @@ public class ArticleClick {
     @Transient
     private Article article;
 
+    @Transient
+    private User user;
     /**
      * 获取点赞表id
      *
@@ -114,5 +116,13 @@ public class ArticleClick {
 
     public void setArticle(Article article) {
         this.article = article;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -33,7 +33,7 @@ public interface MessageService {
      * @param status
      * @return
      */
-    Pagination<Message> getUserMessageList(int toUserId, String status);
+    Pagination<Message> getUserMessageList(int toUserId, int status);
 
     /**
      * 设置已读

@@ -23,4 +23,17 @@ public interface ArticleClickMapper extends MyMapper<ArticleClick> {
     List<ArticleClick> getNoReadConcernLists(@Param("userId") int userId);
 
 
+    @Select("select * from article_click where user_id = #{userId}")
+    @Results({
+            @Result(property = "clickTableId", column = "click_table_id"),
+            @Result(property = "articleId", column = "article_id"),
+            @Result(property = "userId", column = "user_id"),
+            @Result(property = "createTime", column = "create_time"),
+            @Result(property = "isRead",column = "is_read"),
+            @Result(property = "article", column = "article_id", javaType = Article.class,
+                    one = @One(select = "com.zust.writeme.dao.ArticleMapper.selectByPrimaryKey")),
+            @Result(property = "user", column = "user_id", javaType = User.class,
+                    one = @One(select = "com.zust.writeme.dao.UserMapper.selectByPrimaryKey"))
+    })
+    List<ArticleClick> getFavourArticleIdList(@Param("userId") int userId);
 }

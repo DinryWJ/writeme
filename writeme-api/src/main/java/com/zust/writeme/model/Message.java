@@ -30,7 +30,7 @@ public class Message {
     @Column(name = "create_time")
     private Date createTime;
 
-    private String status;
+    private int status;
 
     @Transient
     private User user;
@@ -75,11 +75,11 @@ public class Message {
         this.createTime = createTime;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
