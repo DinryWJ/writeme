@@ -19,7 +19,7 @@ import java.util.List;
 @Service("articleService")
 public class ArticleServiceImpl implements ArticleService {
     //推荐最小文章数
-    final static int MIN_ARTICLE_NUM=6;
+    final static int MIN_ARTICLE_NUM=5;
     @Autowired
     private ArticleMapper articleMapper;
 
@@ -150,9 +150,11 @@ public class ArticleServiceImpl implements ArticleService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         List<Article> articleList = new ArrayList<>();
         int count=0;
-            for (int i = 0; i < l.size(); i++) {
+        int d=0;
+            for (int i = (pageNum-1)*pageSize; i < (d=l.size()<(pageNum*pageSize)?l.size():(pageNum*pageSize)); i++) {
                 Article t = articleMapper.selectByPrimaryKey(l.get(i));
                 t.setAuthor(userMapper.selectByPrimaryKey(t.getUserId()));
                 articleList.add(t);
