@@ -49,21 +49,23 @@ public interface UserService {
     /**
      * 分页获取所有用户
      *
+     * @param status
      * @return
      */
-    Pagination<User> getTotalUser(int pageNum, int pageSize);
+    Pagination<User> getTotalUser(String status, int pageNum, int pageSize);
 
     /**
      * 根据用户名搜索用户
      *
-     * @param name,pageNum,pageSize
+     * @param name,status,pageNum,pageSize
      * @return
      */
-    Pagination<User> selectUserListByName(String name, int pageNum, int pageSize);
+    Pagination<User> selectUserListByName(String name, String status, int pageNum, int pageSize);
 
 
     /**
      * 获取我的推荐用户
+     *
      * @param userId
      * @param pageNum
      * @param pageSize
@@ -73,10 +75,21 @@ public interface UserService {
 
     /**
      * 根据账号搜索用户
+     *
      * @param account
+     * @param status
      * @param pageNum
      * @param pageSize
      * @return
      */
-    Pagination<User> getUserListByUserAccount(String account, int pageNum, int pageSize);
+    Pagination<User> getUserListByUserAccount(String account, String status, int pageNum, int pageSize);
+
+    /**
+     * 用户封禁管理
+     *
+     * @param userId
+     * @param status
+     * @return
+     */
+    int userManage(int userId, String status);
 }

@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -52,7 +53,7 @@ public class ScheduledTask {
             //定时任务可以做耗时操作，包括做生成数据库报表、文件IO等等需要定时执行的逻辑
             if (list != null) {
                 //导出csv文件
-                File ofile = new File("G:\\shiyan\\writeme\\writeme-service\\datafile\\collect.csv");
+                File ofile = ResourceUtils.getFile("classpath:datafile/collect.csv");
                 CsvUtils.exportCsv(ofile, list);
 
             } else {

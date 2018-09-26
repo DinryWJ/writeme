@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="id">
+    <input v-model="id" placeholder="edit me">
+    <p>id is: {{ id }}</p>
+</div>
+<div id="username">
+    <input v-model.trim="username" placeholder="edit me">
+    <p>username is: {{ username }}</p>
+</div>
+<div id="password">
+    <input v-model="password" placeholder="edit me">
+    <p>password is: {{ password }}</p>
+</div>
+<div id="app">
+    <button type="button" @click="myClick( )">保存</button>
+    <p>{{ message }} </p>
+</div>
+</body>
+<script>
+    var app1 = new Vue({
+        el: '#id',
+        data: {
+            id: ''
+        }
+    })
+    var app2 = new Vue({
+        el: '#username',
+        data: {
+            username: ''
+        }
+    })
+    var app3 = new Vue({
+        el: '#password',
+        data: {
+            password: ''
+        }
+    })
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            message: "click me!"
+        },
+        methods: {
+            myClick () {
+
+            this.message = "waiting...";
+            // Send a POST request
+            axios({
+                method: 'post',
+                url: '/index/user',
+                data: {
+                    id: 1,
+                    username: app1.id,
+                    password: app2.username,
+                    usertype: app3.password
+                }
+            });
+            }
+        }
+    });
+
+</script>
+</html>

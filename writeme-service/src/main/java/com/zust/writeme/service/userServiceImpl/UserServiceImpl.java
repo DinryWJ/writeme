@@ -57,11 +57,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Pagination<User> getTotalUser(int pageNum, int pageSize) {
+    public Pagination<User> getTotalUser(String status, int pageNum, int pageSize) {
         Pagination<User> pagination = new Pagination<>();
 
         PageHelper.startPage(pageNum, pageSize);
-        List<User> userList = userMapper.selectAll();
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("status", status);
+        List<User> userList = userMapper.selectByExample(example);
 
         pagination.setList(userList);
         pagination.setPageNum((long) pageNum);
@@ -71,13 +74,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Pagination<User> selectUserListByName(String name, int pageNum, int pageSize) {
+    public Pagination<User> selectUserListByName(String name, String status, int pageNum, int pageSize) {
         Pagination<User> pagination = new Pagination<>();
 
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andLike("userName", "%" + name + "%");
-
+        criteria.andEqualTo("status", status);
         PageHelper.startPage(pageNum, pageSize);
         List<User> userList = userMapper.selectByExample(example);
 
@@ -103,13 +106,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Pagination<User> getUserListByUserAccount(String account, int pageNum, int pageSize) {
+    public Pagination<User> getUserListByUserAccount(String account, String status, int pageNum, int pageSize) {
         Pagination<User> pagination = new Pagination<>();
 
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andLike("userAccount", "%" + account + "%");
-
+        criteria.andEqualTo("status", status);
         PageHelper.startPage(pageNum, pageSize);
         List<User> userList = userMapper.selectByExample(example);
 
@@ -118,6 +121,14 @@ public class UserServiceImpl implements UserService {
         pagination.setPageSize((long) pageSize);
         pagination.setTotal(((Page) userList).getTotal());
         return pagination;
+    }
+
+    @Override
+    public int userManage(int userId, String status) {
+        User user = new User();
+        user.setUserId(userId);
+        user.setStatus(status);
+        return userMapper.updateByPrimaryKeySelective(user);
     }
 
 }
