@@ -1,6 +1,5 @@
 package com.zust.writeme.cloud;
 
-import com.zust.writeme.model.UserInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
