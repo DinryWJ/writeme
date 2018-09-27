@@ -92,4 +92,33 @@ public interface UserService {
      * @return
      */
     int userManage(int userId, String status);
+
+    /**
+     * 修改密码
+     *
+     * @param userId
+     * @param newPwd
+     * @return
+     */
+    int modifyPwd(int userId, String newPwd);
+
+    /**
+     * 用户个人设置
+     *
+     * @param userId
+     * @param userName
+     * @param sex
+     * @param userAbstract
+     * @return
+     */
+    int userSetting(int userId, String userName, String sex, String userAbstract);
+
+    /**
+     * 修改头像
+     *
+     * @param userId
+     * @param imageUrl
+     * @return
+     */
+    int modifyPic(int userId, String imageUrl);
 }

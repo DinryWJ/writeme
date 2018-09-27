@@ -131,4 +131,30 @@ public class UserServiceImpl implements UserService {
         return userMapper.updateByPrimaryKeySelective(user);
     }
 
+    @Override
+    public int modifyPwd(int userId, String newPwd) {
+        User user = new User();
+        user.setUserId(userId);
+        user.setUserPassword(newPwd);
+        return userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
+    public int userSetting(int userId, String userName, String sex, String userAbstract) {
+        User user = new User();
+        user.setUserId(userId);
+        user.setUserName(userName);
+        user.setSex(sex);
+        user.setUserAbstract(userAbstract);
+        return userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
+    public int modifyPic(int userId, String imageUrl) {
+        User user = new User();
+        user.setUserId(userId);
+        user.setUserImage(imageUrl);
+        return userMapper.updateByPrimaryKeySelective(user);
+    }
+
 }
