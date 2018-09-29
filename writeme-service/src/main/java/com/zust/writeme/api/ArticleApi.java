@@ -233,10 +233,11 @@ public class ArticleApi {
     @RequestMapping(value = "/getMyRecommentArticleList", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> getLikeArticle(
             @ApiParam(value = "userId", name = "userId", required = true) @RequestParam(value = "userId", required = true) int userId,
+            @ApiParam(value = "status", name = "status", required = true) @RequestParam(value = "status", required = true)int status ,
             @ApiParam(value = "pageNum", name = "pageNum", required = true) @RequestParam(value = "pageNum", required = true) int pageNum,
             @ApiParam(value = "pageSize", name = "pageSize", required = true) @RequestParam(value = "pageSize", required = true) int pageSize
     ) {
-        Pagination<Article> pagination = articleService.getArticleListByCF(userId,pageNum,pageSize);
+        Pagination<Article> pagination = articleService.getArticleListByCF(userId,status,pageNum,pageSize);
 
          return ApiResponse.successResponse(pagination);
     }

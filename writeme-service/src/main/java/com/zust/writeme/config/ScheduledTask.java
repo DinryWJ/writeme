@@ -1,6 +1,8 @@
 package com.zust.writeme.config;
 
+import com.zust.writeme.dao.ArticleClickMapper;
 import com.zust.writeme.dao.CollectMapper;
+import com.zust.writeme.model.ArticleClick;
 import com.zust.writeme.model.Collect;
 import org.apache.mahout.cf.taste.impl.common.LongPrimitiveIterator;
 import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
@@ -31,7 +33,7 @@ public class ScheduledTask {
     private static final Logger logger = LoggerFactory.getLogger(ScheduledTask.class);
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     @Autowired
-    private CollectMapper collectMapper;
+    private ArticleClickMapper articleClickMapper;
 
     /**
      * 每隔5秒执行, 单位：ms。
@@ -48,7 +50,7 @@ public class ScheduledTask {
         System.out.println("每天凌晨1点开始执行");
 
         try {
-            List<Collect> list = collectMapper.selectAll();
+            List<ArticleClick> list = articleClickMapper.selectAll();
 
             //定时任务可以做耗时操作，包括做生成数据库报表、文件IO等等需要定时执行的逻辑
             if (list != null) {

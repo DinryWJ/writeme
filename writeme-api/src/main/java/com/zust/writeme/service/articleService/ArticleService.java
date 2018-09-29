@@ -28,5 +28,5 @@ public interface ArticleService {
 
     int articleManage(int articleId, int status);
 
-    Pagination<Article> getArticleListByCF(int userId, int pageNum, int pageSize);
+    Pagination<Article> getArticleListByCF(int userId, int status ,int pageNum, int pageSize);
 }

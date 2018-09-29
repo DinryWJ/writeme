@@ -1,5 +1,7 @@
 package com.zust.writeme.config;
 
+import com.zust.writeme.model.Article;
+import com.zust.writeme.model.ArticleClick;
 import com.zust.writeme.model.Collect;
 
 import java.io.*;
@@ -17,7 +19,7 @@ public class CsvUtils {
      * @param dataList 数据
      * @return
      */
-    public static boolean exportCsv(File file, List<Collect> dataList) {
+    public static boolean exportCsv(File file, List<ArticleClick> dataList) {
         boolean isSucess = false;
         FileOutputStream out = null;
         OutputStreamWriter osw = null;
@@ -27,7 +29,7 @@ public class CsvUtils {
             osw = new OutputStreamWriter(out);
             bw = new BufferedWriter(osw);
             if (dataList != null && !dataList.isEmpty()) {
-                for (Collect data : dataList) {
+                for (ArticleClick data : dataList) {
                     bw.append(data.getUserId().toString()).append(",");
                     bw.append(data.getArticleId().toString()).append(",");
                     bw.append(data.getVal()).append("\r");

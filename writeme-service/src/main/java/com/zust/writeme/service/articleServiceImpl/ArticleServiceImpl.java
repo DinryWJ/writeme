@@ -139,7 +139,7 @@ public class ArticleServiceImpl implements ArticleService {
         return articleMapper.updateByPrimaryKeySelective(article);
     }
    @Override
-    public Pagination<Article> getArticleListByCF(int userId, int pageNum, int pageSize) {
+    public Pagination<Article> getArticleListByCF(int userId,int status ,int pageNum, int pageSize) {
         Pagination<Article> pagination = new Pagination<>();
 
         PageHelper.startPage(pageNum, pageSize);

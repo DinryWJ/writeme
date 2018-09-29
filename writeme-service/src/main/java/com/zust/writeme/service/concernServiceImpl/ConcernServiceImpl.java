@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service("concernService")
@@ -108,17 +110,17 @@ public class ConcernServiceImpl implements ConcernService {
             users.add(userMapper.selectByPrimaryKey(concerns.get(i).getUserId()));
             //concernedId 登录用户id
             //concerns.get(i).getUserId() 主动关注者id
-            System.out.println("-----------------------------------"+concerns.get(i).getUserId().toString()+"========"+concernedId);
             int isconcern=getValidConcern(concernedId,concerns.get(i).getUserId());
             ismutual.add(isconcern);
         }
+        DateFormat format = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
         for (int i = 0; i < concerns.size(); i++) {
             Map map = new HashMap(5);
             map.put("concernId",concerns.get(i).getConcernId());
             map.put("userId",users.get(i).getUserId());
             map.put("img", users.get(i).getUserImage());
             map.put("name", users.get(i).getUserName());
-            map.put("time", concerns.get(i).getCreateTime());
+            map.put("time", format.format(concerns.get(i).getCreateTime()));
 
             if (ismutual.get(i).equals(1))
             {

@@ -34,10 +34,10 @@ public class CF {
         LongPrimitiveIterator iter = model.getUserIDs();
         List<Integer> l=new ArrayList<Integer>();
         List<RecommendedItem> list = r.recommend(uid, MAX_ITEM);
-       // System.out.printf("uid:%s", uid);
+        System.out.printf("uid:%s", uid);
         for (RecommendedItem ritem : list) {
             l.add((int)ritem.getItemID());
-           // System.out.printf("(%s,%f)", ritem.getItemID(), ritem.getValue());
+            System.out.printf("(%s,%f)", ritem.getItemID(), ritem.getValue());
             }
            // System.out.println();
         return l;

@@ -30,6 +30,9 @@ public class ArticleClick {
     @Column(name = "is_read")
     private String isRead;
 
+    @Column(name = "val")
+    private String val;
+
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @Column(name = "create_time")
@@ -124,5 +127,13 @@ public class ArticleClick {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getVal() {
+        return val;
+    }
+
+    public void setVal(String val) {
+        this.val = val;
     }
 }
